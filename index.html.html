@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formation DIR Galax - Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+        
+        .flag {
+            width: 30px;
+            height: 20px;
+            background: linear-gradient(to right, #0055A4 33%, white 33% 66%, #EF4135 66%);
+            border-radius: 2px;
+        }
+        
+        .org-name {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        
+        .main-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 15px 0 8px 0;
+        }
+        
+        .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .content {
+            background: white;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .step {
+            padding: 30px;
+            display: none;
+        }
+        
+        .step.active {
+            display: block;
+        }
+        
+        .step-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .step-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #3498db;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .form-input, .form-select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: border-color 0.2s;
+        }
+        
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        
+        .btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .btn:hover {
+            background: #2980b9;
+        }
+        
+        .btn-secondary {
+            background: #95a5a6;
+        }
+        
+        .btn-secondary:hover {
+            background: #7f8c8d;
+        }
+        
+        .affiche-nav {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .affiche-btn {
+            padding: 8px 12px;
+            background: #ecf0f1;
+            border: 2px solid #bdc3c7;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+        
+        .affiche-btn.active {
+            background: #3498db;
+            border-color: #3498db;
+            color: white;
+        }
+        
+        .affiche-container {
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            height: 600px;
+        }
+        
+        .affiche-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .progress-bar {
+            background: #ecf0f1;
+            border-radius: 10px;
+            height: 20px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: #3498db;
+            height: 100%;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .question-card {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        
+        .question-number {
+            background: #3498db;
+            color: white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .question-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        
+        .answers {
+            display: grid;
+            gap: 12px;
+        }
+        
+        .answer {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 4px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .answer:hover {
+            border-color: #3498db;
+            background: #f0f8ff;
+        }
+        
+        .answer.selected {
+            border-color: #3498db;
+            background: #e3f2fd;
+        }
+        
+        .answer-radio {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #bdc3c7;
+            border-radius: 50%;
+            position: relative;
+        }
+        
+        .answer.selected .answer-radio {
+            border-color: #3498db;
+        }
+        
+        .answer.selected .answer-radio::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: #3498db;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #27ae60;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 4px;
+            font-weight: 600;
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.error {
+            background: #e74c3c;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .step {
+                padding: 20px;
+            }
+            
+            .main-title {
+                font-size: 20px;
+            }
+            
+            .affiche-container {
+                height: 500px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <div class="flag"></div>
+                <span class="org-name">DIRECTION INTERDÉPARTEMENTALE DES ROUTES DE GALAX</span>
+            </div>
+            <h1 class="main-title">Formation DIR - Quiz</h1>
+            <p class="subtitle">Validation des connaissances formateur</p>
+        </div>
+        
+        <div class="content">
+            <!-- Étape 1: Informations personnelles -->
+            <div class="step active" id="step-1">
+                <div class="step-title">
+                    <span class="step-number">1</span>
+                    Informations personnelles
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="nom">Nom :</label>
+                    <input type="text" id="nom" class="form-input" placeholder="Votre nom" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="prenom">Prénom :</label>
+                    <input type="text" id="prenom" class="form-input" placeholder="Votre prénom" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="type">Type de formation :</label>
+                    <select id="type" class="form-select" required>
+                        <option value="">-- Sélectionnez --</option>
+                        <option value="certifie">Formateur Certifié</option>
+                        <option value="test">Formateur en Test</option>
+                        <option value="aide">Aide-Formateur</option>
+                    </select>
+                </div>
+                
+                <button class="btn" onclick="goToStep(2)">Commencer la formation</button>
+            </div>
+            
+            <!-- Étape 2: Consultation des affiches -->
+            <div class="step" id="step-2">
+                <div class="step-title">
+                    <span class="step-number">2</span>
+                    Consultation des affiches
+                </div>
+                
+                <p style="margin-bottom: 20px; color: #7f8c8d;">
+                    Consultez attentivement les 6 affiches ci-dessous avant de passer au quiz.
+                </p>
+                
+                <div class="affiche-nav">
+                    <button class="affiche-btn active" onclick="showAffiche(1)">1. Types</button>
+                    <button class="affiche-btn" onclick="showAffiche(2)">2. Préparation</button>
+                    <button class="affiche-btn" onclick="showAffiche(3)">3. Déroulement</button>
+                    <button class="affiche-btn" onclick="showAffiche(4)">4. Codes</button>
+                    <button class="affiche-btn" onclick="showAffiche(5)">5. Situations</button>
+                    <button class="affiche-btn" onclick="showAffiche(6)">6. Clôture</button>
+                </div>
+                
+                <div class="affiche-container">
+                    <iframe id="affiche-frame" class="affiche-frame" src=""></iframe>
+                </div>
+                
+                <button class="btn" onclick="goToStep(3)">Commencer le quiz</button>
+            </div>
+            
+            <!-- Étape 3: Quiz -->
+            <div class="step" id="step-3">
+                <div class="step-title">
+                    <span class="step-number">3</span>
+                    Quiz de validation
+                </div>
+                
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress" style="width: 0%;">0/15</div>
+                </div>
+                
+                <div id="question-container"></div>
+                
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="btn btn-secondary hidden" id="prevBtn" onclick="previousQuestion()">Précédent</button>
+                    <button class="btn" id="nextBtn" onclick="nextQuestion()">Suivant</button>
+                </div>
+            </div>
+            
+            <!-- Étape 4: Fin du quiz -->
+            <div class="step" id="step-4">
+                <div style="text-align: center; padding: 40px;">
+                    <h2 style="color: #3498db; margin-bottom: 20px;">Quiz terminé !</h2>
+                    <p style="font-size: 18px; color: #7f8c8d; margin-bottom: 30px;">
+                        Merci d'avoir passé le quiz de formation DIR.
+                    </p>
+                    <p style="font-size: 16px; color: #2c3e50; margin-bottom: 30px;">
+                        Vos résultats ont été transmis automatiquement au responsable de formation.<br>
+                        Vous serez contacté prochainement concernant la suite.
+                    </p>
+                    <div style="background: #f8f9fa; border-radius: 8px; padding: 20px; margin: 20px 0; border-left: 4px solid #3498db;">
+                        <p style="color: #2c3e50; font-weight: 600; margin: 0;">
+                            Les résultats sont envoyés sur le salon Discord dédié.<br>
+                            Un responsable vous contactera dans les plus brefs délais.
+                        </p>
+                    </div>
+                    <button class="btn" onclick="goToStep(2)">Retour aux leçons</button>
+                    <button class="btn btn-secondary" onclick="restart()">Recommencer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="notification" id="notification"></div>
+
+    <script>
+        // Variables globales
+        let currentStep = 1;
+        let currentQuestion = 0;
+        let score = 0;
+        let answers = [];
+        let userInfo = {};
+        
+        // Questions du quiz
+        const questions = [
+            {
+                question: "Combien de types de formateurs existe-t-il dans la DIR ?",
+                answers: ["2", "3", "4", "5"],
+                correct: 1
+            },
+            {
+                question: "Quel est le délai minimum pour annoncer une formation ?",
+                answers: ["12 heures", "24 heures", "48 heures", "72 heures"],
+                correct: 1
+            },
+            {
+                question: "Après quelle heure les formations sont-elles interdites ?",
+                answers: ["19h00", "20h00", "21h00", "22h00"],
+                correct: 1
+            },
+            {
+                question: "Quel code DIGIJOB utilise un citoyen ?",
+                answers: ["0000", "8524", "9658", "1234"],
+                correct: 0
+            },
+            {
+                question: "Combien de points perd-on en touchant un obstacle ?",
+                answers: ["-0,5 point", "-1 point", "-1,5 point", "-2 points"],
+                correct: 0
+            },
+            {
+                question: "Combien de points perd-on pour une erreur au code de la route ?",
+                answers: ["-0,5 point", "-1 point", "-1,5 point", "-2 points"],
+                correct: 1
+            },
+            {
+                question: "Combien de temps avant la formation faut-il se connecter pour préparer le parcours ?",
+                answers: ["10 minutes", "15 minutes", "20 minutes", "30 minutes"],
+                correct: 1
+            },
+            {
+                question: "Minimum de bonnes réponses nécessaires à l'épreuve théorique (sur 9 questions) ?",
+                answers: ["3", "4", "5", "6"],
+                correct: 1
+            },
+            {
+                question: "Combien de candidats maximum simultanément dans un rond-point ?",
+                answers: ["1", "2", "3", "4"],
+                correct: 1
+            },
+            {
+                question: "Où doit-on se positionner sur autoroute pour le balisage ?",
+                answers: ["Au début", "Au milieu", "À la fin", "N'importe où"],
+                correct: 1
+            },
+            {
+                question: "Que doit-on faire AVANT de corriger un candidat ?",
+                answers: ["Le stresser", "L'évaluer", "Le féliciter", "Rien"],
+                correct: 1
+            },
+            {
+                question: "Quel est le principe fondamental lors de l'évaluation ?",
+                answers: ["Sévérité", "Bienveillance", "Rapidité", "Indifférence"],
+                correct: 1
+            },
+            {
+                question: "Que faut-il vérifier à la fin d'une formation ?",
+                answers: ["Rien", "La map seulement", "Les participants seulement", "La map ET qu'aucune personne ne reste"],
+                correct: 3
+            },
+            {
+                question: "Dans quel salon publie-t-on les résultats ?",
+                answers: ["Général", "Résultats formation", "Formateurs", "Direction"],
+                correct: 1
+            },
+            {
+                question: "Un formateur certifié peut-il organiser une formation seul ?",
+                answers: ["Oui", "Non", "Seulement avec autorisation", "Parfois"],
+                correct: 0
+            }
+        ];
+        
+        // Contenus des affiches
+        const affiches = {
+            1: `<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><style>
+body{margin:0;padding:20px;font-family:Arial,sans-serif;background:#f8f9fa}
+.affiche{background:white;border-radius:8px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.1)}
+.header{background:#2c3e50;color:white;padding:20px;text-align:center}
+.title{font-size:20px;font-weight:700;margin:10px 0}
+.content{padding:20px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.card{border:2px solid #e9ecef;border-radius:6px;padding:15px;text-align:center}
+.icon{width:40px;height:40px;border-radius:50%;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;color:white;font-weight:700}
+.certifie .icon{background:#27ae60}
+.test .icon{background:#f39c12}
+.aide .icon{background:#3498db}
+@media(max-width:600px){.grid{grid-template-columns:1fr}}
+</style></head><body>
+<div class="affiche">
+<div class="header"><h1 class="title">Les 3 types de formateurs</h1></div>
+<div class="content">
+<div class="grid">
+<div class="card certifie">
+<div class="icon">C</div>
+<h3>Formateur Certifié</h3>
+<p>Peut organiser seul, évaluer et former sans limite</p>
+</div>
+<div class="card test">
+<div class="icon">T</div>
+<h3>Formateur en Test</h3>
+<p>Supervision obligatoire, pas d'évaluation finale</p>
+</div>
+<div class="card aide">
+<div class="icon">A</div>
+<h3>Aide-Formateur</h3>
+<p>Assiste seulement, ne peut pas organiser</p>
+</div>
+</div>
+</div>
+</div>
+</body></html>`,
+            
+            2: `<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><style>
+body{margin:0;padding:20px;font-family:Arial,sans-serif;background:#f8f9fa}
+.affiche{background:white;border-radius:8px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.1)}
+.header{background:#2c3e50;color:white;padding:20px;text-align:center}
+.title{font-size:20px;font-weight:700;margin:10px 0}
+.content{padding:20px}
+.step{margin:15px 0;padding:15px;border-left:4px solid #3498db;background:#f8f9fa}
+.warning{background:#fff3cd;border:1px solid #ffeaa7;border-radius:6px;padding:15px;text-align:center;color:#856404;font-weight:700}
+</style></head><body>
+<div class="affiche">
+<div class="header"><h1 class="title">Préparation de formation</h1></div>
+<div class="content">
+<div class="step"><h3>1. Publication annonce</h3><p>24h minimum à l'avance dans le salon dédié</p></div>
+<div class="step"><h3>2. Vérification map</h3><p>S'assurer que la map est accessible</p></div>
+<div class="step"><h3>3. Préparation parcours</h3><p>Se connecter 15 min avant pour préparer</p></div>
+<div class="step"><h3>4. Rappel participants</h3><p>20-30 min avant le début</p></div>
+<div class="warning">Formations interdites après 20h00</div>
+</div>
+</div>
+</body></html>`,
+            
+            3: `<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><style>
+body{margin:0;padding:20px;font-family:Arial,sans-serif;background:#f8f9fa}
+.affiche{background:white;border-radius:8px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.1)}
+.header{background:#2c3e50;color:white;padding:20px;text-align:center}
+.title{font-size:20px;font-weight:700;margin:10px 0}
+.content{padding:20px}
+.phase{margin:15px 0;border:1px solid #e9ecef;border-radius:6px;overflow:hidden}
+.phase-header{background:#f8f9fa;padding:10px 15px;font-weight:700}
+.phase-content{padding:15px}
+.warning{background:#fff3cd;border:1px solid #ffeaa7;border-radius:4px;padding:10px;text-align:center;color:#856404;font-weight:600}
+</style></head><body>
+<div class="affiche">
+<div class="header"><h1 class="title">Déroulement de formation</h1></div>
+<div class="content">
+<div class="phase">
+<div class="phase-header">1. Présentation et appel</div>
+<div class="phase-content">Présenter formateurs, faire l'appel</div>
+</div>
+<div class="phase">
+<div class="phase-header">2. Épreuve théorique</div>
+<div class="phase-content">9 questions - minimum 4 bonnes réponses
+<div class="warning">Moins de 4/9 = Refusé</div>
+</div>
+</div>
+<div class="phase">
+<div class="phase-header">3. Partie pratique</div>
+<div class="phase-content">Équipement orange, parcours avec notation<br>
+<strong>-0,5 pt</strong> obstacle | <strong>-1 pt</strong> erreur code</div>
+</div>
+<div class="phase">
+<div class="phase-header">4. Évaluation bienveillante</div>
+<div class="phase-content">Évaluer avant de corriger</div>
+</div>
+</div>
+</div>
+</body></html>`,
+            
+            4: `<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><style>
+body{margin:0;padding:20px;font-family:Arial,sans-serif;background:#f8f9fa}
+.affiche{background:white;border-radius:8px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.1)}
+.header{background:#2c3e50;color:white;padding:20px;text-align:center}
+.title{font-size:20px;font-weight:700;margin:10px 0}
+.content{padding:20px}
+.code-item{display:flex;justify-content:space-between;align-items:center;padding:15px;margin:10px 0;border:2px solid #e9ecef;border-radius:6px}
+.code-number{font-family:monospace;font-size:20px;font-weight:700;color:#3498db;background:#f8f9fa;padding:5px 10px;border-radius:4px}
+.warning{background:#fff3cd;border:1px solid #ffeaa7;border-radius:6px;padding:15px;text-align:center;color:#856404;font-weight:700}
+</style></head><body>
+<div class="affiche">
+<div class="header"><h1 class="title">Codes DIGIJOB</h1></div>
+<div class="content">
+<div class="code-item">
+<span>Citoyen</span>
+<span class="code-number">0000</span>
+</div>
+<div class="code-item">
+<span>Agent</span>
+<span class="code-number">8524</span>
+</div>
+<div class="code-item">
+<span>Formateur</span>
+<span class="code-number">9658</span>
+</div>
+<div class="warning">CONFIDENTIEL - Ne pas divulguer</div>
+</div>
+</div>
+</body></html>`,
+            
+            5: `<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><style>
+body{margin:0;padding:20px;font-family:Arial,sans-serif;background:#f8f9fa}
+.affiche{background:white;border-radius:8px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.1)}
+.header{background:#2c3e50;color:white;padding:20px;text-align:center}
+.title{font-size:20px;font-weight:700;margin:10px 0}
+.content{padding:20px}
+.situations{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin:20px 0}
+.situation{border:2px solid #e9ecef;border-radius:6px;padding:15px;text-align:center}
+.situation h3{color:#3498db;margin-bottom:10px}
+.scoring{background:#fff3cd;border-radius:6px;padding:15px;text-align:center;color:#856404;font-weight:600}
+@media(max-width:600px){.situations{grid-template-columns:1fr}}
+</style></head><body>
+<div class="affiche">
+<div class="header"><h1 class="title">Situations pratiques</h1></div>
+<div class="content">
+<div class="situations">
+<div class="situation">
+<h3>1. Ligne droite</h3>
+<p>Routes sans virages complexes</p>
+</div>
+<div class="situation">
+<h3>2. Rond-point</h3>
+<p>Max 2 candidats simultanés</p>
+</div>
+<div class="situation">
+<h3>3. Autoroute</h3>
+<p>Se positionner au milieu</p>
+</div>
+</div>
+<div class="scoring">
+<strong>Notation:</strong> -0,5 pt obstacle | -1 pt erreur code
+</div>
+</div>
+</div>
+</body></html>`,
+            
+            6: `<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><style>
+body{margin:0;padding:20px;font-family:Arial,sans-serif;background:#f8f9fa}
+.affiche{background:white;border-radius:8px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.1)}
+.header{background:#2c3e50;color:white;padding:20px;text-align:center}
+.title{font-size:20px;font-weight:700;margin:10px 0}
+.content{padding:20px}
+.step{margin:15px 0;padding:12px;border-left:4px solid #3498db;background:#f8f9fa}
+.formula{background:#e3f2fd;border:1px solid #bbdefb;border-radius:4px;padding:12px;text-align:center;font-weight:700;color:#1976d2;margin:10px 0}
+.success{background:#f0fff4;border:1px solid #c6f6d5;border-radius:6px;padding:15px;text-align:center;color:#2d3748}
+</style></head><body>
+<div class="affiche">
+<div class="header"><h1 class="title">Clôture de formation</h1></div>
+<div class="content">
+<div class="step">
+<h3>1. Calcul des points</h3>
+<div class="formula">Points = Théorie + Pratique - Pénalités</div>
+</div>
+<div class="step">
+<h3>2. Présentation serveur</h3>
+<p>Partage d'écran, procédures d'arrivée</p>
+</div>
+<div class="step">
+<h3>3. Publication résultats</h3>
+<p>Salon "résultats formation" avec bienveillance</p>
+</div>
+<div class="step">
+<h3>4. Nettoyage final</h3>
+<p>Retirer balisage, vérifier absence de personnes</p>
+</div>
+<div class="success">
+<strong>Formation terminée</strong><br>
+Les candidats seront contactés prochainement
+</div>
+</div>
+</div>
+</body></html>`
+        };
+        
+        // Fonctions principales
+        function goToStep(stepNumber) {
+            if (stepNumber === 2) {
+                const nom = document.getElementById('nom').value.trim();
+                const prenom = document.getElementById('prenom').value.trim();
+                const type = document.getElementById('type').value;
+                
+                if (!nom || !prenom || !type) {
+                    showNotification('Veuillez remplir tous les champs', 'error');
+                    return;
+                }
+                
+                userInfo = { nom, prenom, type };
+            }
+            
+            if (stepNumber === 3) {
+                currentQuestion = 0;
+                answers = [];
+                loadQuestion();
+            }
+            
+            // Masquer toutes les étapes
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active');
+            });
+            
+            // Afficher l'étape demandée
+            const targetStep = document.getElementById(`step-${stepNumber}`);
+            if (targetStep) {
+                targetStep.classList.add('active');
+                currentStep = stepNumber;
+                
+                // Charger la première affiche si on va à l'étape 2
+                if (stepNumber === 2) {
+                    showAffiche(1);
+                }
+            }
+        }
+        
+        function showAffiche(num) {
+            // Mettre à jour les boutons
+            document.querySelectorAll('.affiche-btn').forEach((btn, index) => {
+                btn.classList.toggle('active', index + 1 === num);
+            });
+            
+            // Charger l'affiche
+            const frame = document.getElementById('affiche-frame');
+            if (frame && affiches[num]) {
+                frame.srcdoc = affiches[num];
+            }
+        }
+        
+        function loadQuestion() {
+            const container = document.getElementById('question-container');
+            if (!container || !questions[currentQuestion]) return;
+            
+            const q = questions[currentQuestion];
+            
+            container.innerHTML = `
+                <div class="question-card">
+                    <div class="question-number">${currentQuestion + 1}</div>
+                    <div class="question-text">${q.question}</div>
+                    <div class="answers">
+                        ${q.answers.map((answer, index) => `
+                            <div class="answer" onclick="selectAnswer(${index})">
+                                <div class="answer-radio"></div>
+                                <span>${answer}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            
+            // Restaurer la réponse précédente
+            if (answers[currentQuestion] !== undefined) {
+                const selectedAnswer = container.querySelectorAll('.answer')[answers[currentQuestion]];
+                if (selectedAnswer) {
+                    selectedAnswer.classList.add('selected');
+                }
+            }
+            
+            updateProgress();
+            updateButtons();
+        }
+        
+        function selectAnswer(index) {
+            // Désélectionner toutes les réponses
+            document.querySelectorAll('.answer').forEach(a => a.classList.remove('selected'));
+            
+            // Sélectionner la réponse cliquée
+            const answerElements = document.querySelectorAll('.answer');
+            if (answerElements[index]) {
+                answerElements[index].classList.add('selected');
+                answers[currentQuestion] = index;
+            }
+        }
+        
+        function nextQuestion() {
+            if (answers[currentQuestion] === undefined) {
+                showNotification('Veuillez sélectionner une réponse', 'error');
+                return;
+            }
+            
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                loadQuestion();
+            } else {
+                finishQuiz();
+            }
+        }
+        
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                loadQuestion();
+            }
+        }
+        
+        function updateProgress() {
+            const progress = document.getElementById('progress');
+            if (progress) {
+                const percentage = ((currentQuestion + 1) / questions.length) * 100;
+                progress.style.width = percentage + '%';
+                progress.textContent = `${currentQuestion + 1}/${questions.length}`;
+            }
+        }
+        
+        function updateButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            if (prevBtn) {
+                prevBtn.classList.toggle('hidden', currentQuestion === 0);
+            }
+            
+            if (nextBtn) {
+                nextBtn.textContent = currentQuestion === questions.length - 1 ? 'Terminer' : 'Suivant';
+            }
+        }
+        
+        function finishQuiz() {
+            // Calculer le score
+            score = 0;
+            answers.forEach((answer, index) => {
+                if (answer === questions[index].correct) {
+                    score++;
+                }
+            });
+            
+            // Simuler l'envoi des résultats
+            sendResults();
+            
+            // Aller à la page de fin
+            goToStep(4);
+        }
+        
+        function sendResults() {
+            const percentage = Math.round((score / questions.length) * 100);
+            const status = percentage >= 75 ? 'RÉUSSI' : 'ÉCHOUÉ';
+            
+            // Simulation d'envoi Discord
+            const resultData = {
+                candidat: `${userInfo.prenom} ${userInfo.nom}`,
+                type: userInfo.type === 'certifie' ? 'Formateur Certifié' : 
+                      userInfo.type === 'test' ? 'Formateur en Test' : 'Aide-Formateur',
+                score: `${score}/${questions.length} (${percentage}%)`,
+                statut: status,
+                date: new Date().toLocaleString('fr-FR')
+            };
+            
+            // Remplacez cette URL par votre webhook Discord
+const webhookURL = 'https://discord.com/api/webhooks/1416783632172847114/XKWomZNvwN-9xeFVVLKyL0FEWLAL56LAusrpc1MTcrBbkpTl7N_9ouqLcNTtOFHAAC9O';
+
+const discordMessage = {
+    embeds: [{
+        title: '📋 Nouveau résultat de formation',
+        color: status === 'RÉUSSI' ? 0x27ae60 : 0xe74c3c,
+        fields: [
+            {
+                name: '👤 Candidat',
+                value: `${userInfo.prenom} ${userInfo.nom}`,
+                inline: true
+            },
+            {
+                name: '📚 Type',
+                value: userInfo.type === 'certifie' ? 'Formateur Certifié' : 
+                       userInfo.type === 'test' ? 'Formateur en Test' : 'Aide-Formateur',
+                inline: true
+            },
+            {
+                name: '📊 Score',
+                value: `${score}/${questions.length} (${percentage}%)`,
+                inline: true
+            },
+            {
+                name: '✅ Statut',
+                value: status,
+                inline: true
+            },
+            {
+                name: '📅 Date',
+                value: new Date().toLocaleString('fr-FR'),
+                inline: true
+            }
+        ],
+        timestamp: new Date().toISOString()
+    }]
+};
+
+// Envoi vers Discord
+fetch(webhookURL, {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(discordMessage)
+})
+.then(response => {
+    if (response.ok) {
+        console.log('Résultats envoyés vers Discord avec succès');
+    } else {
+        console.error('Erreur lors de l\'envoi vers Discord');
+    }
+})
+.catch(error => {
+    console.error('Erreur:', error);
+});
+            showNotification('Quiz terminé ! Résultats transmis.', 'success');
+        }
+        
+        function restart() {
+            currentStep = 1;
+            currentQuestion = 0;
+            score = 0;
+            answers = [];
+            userInfo = {};
+            
+            // Reset des champs
+            document.getElementById('nom').value = '';
+            document.getElementById('prenom').value = '';
+            document.getElementById('type').value = '';
+            
+            goToStep(1);
+        }
+        
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            if (notification) {
+                notification.textContent = message;
+                notification.className = `notification ${type}`;
+                notification.classList.add('show');
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+        }
+        
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            goToStep(1);
+        });
+    </script>
+</body>
+</html>
