@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DIR Galax - Plateforme de Formation Officielle</title>
+    <title>Formation DIR - Ministère de la Transition écologique</title>
     <style>
         * {
             margin: 0;
@@ -11,528 +11,351 @@
             box-sizing: border-box;
         }
         
-        :root {
-            /* Couleurs officielles DIR */
-            --dir-bleu: #003366;
-            --dir-bleu-clair: #005299;
-            --dir-orange: #d36d1a;
-            --dir-gris: #4A4A4A;
-            --dir-gris-clair: #E5E5E5;
-            --dir-blanc: #FFFFFF;
-            --dir-vert: #00A651;
-            --dir-rouge: #DC143C;
-            --dir-jaune: #FFB000;
-            
-            /* Variables système */
-            --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
-            --shadow-md: 0 4px 8px rgba(0,0,0,0.15);
-            --shadow-lg: 0 8px 16px rgba(0,0,0,0.2);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
         body {
-            font-family: 'Marianne', 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: #F7F7F7;
-            color: var(--dir-gris);
-            line-height: 1.6;
-            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.5;
         }
         
-        /* Bannière supérieure officielle */
-        .top-banner {
-            background: linear-gradient(90deg, var(--dir-bleu) 0%, var(--dir-bleu-clair) 100%);
-            padding: 8px 0;
-            box-shadow: var(--shadow-md);
+        /* Header gouvernemental */
+        .gov-header {
+            background: #fff;
+            border-bottom: 3px solid #000091;
+            padding: 12px 0;
         }
         
-        .top-banner-content {
-            max-width: 1400px;
+        .container {
+            max-width: 1300px;
             margin: 0 auto;
             padding: 0 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
         }
         
-        .republique {
+        .gov-identity {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .gov-logo {
             display: flex;
             align-items: center;
             gap: 15px;
         }
         
-        .marianne {
-            width: 40px;
-            height: 40px;
-            background: white;
-            border-radius: 50%;
+        .flag {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: var(--dir-bleu);
+            height: 150px;
         }
         
-        .republique-text {
-            color: white;
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            line-height: 1.2;
+        .gov-text {
+            border-left: 2px solid #ddd;
+            padding-left: 35px;
         }
         
-        .republique-text div:first-child {
-            font-weight: 300;
-        }
-        
-        .republique-text div:last-child {
-            font-weight: 700;
-        }
-        
-        /* Container principal */
-        .main-wrapper {
-            max-width: 1500px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        /* Carte principale */
-        .main-card {
-            background: white;
-            border-radius: 0;
-            overflow: hidden;
-            box-shadow: var(--shadow-lg);
-            border: 1px solid var(--dir-gris-clair);
-        }
-        
-        /* En-tête DIR */
-        .dir-header {
-            background:var(--dir-orange);
-            padding: 20px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .dir-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-        }
-        
-        .dir-identity {
-            position: relative;
-            z-index: 1;
-            text-align: center;
-        }
-        
-        .dir-logo {
-            display: inline-flex;
-            align-items: center;
-            gap: 20px;
-            background: white;
-            padding: 15px 25px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            box-shadow: var(--shadow-md);
-        }
-        
-        .dir-logo-icon {
-            width: 50px;
-            height: 50px;
-            background: var(--dir-bleu);
-            border-radius: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 20px;
-        }
-        
-        .dir-logo-text {
-            text-align: left;
-        }
-        
-        .dir-logo-text .acronym {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--dir-bleu);
-            line-height: 1;
-        }
-        
-        .dir-logo-text .full {
-            font-size: 11px;
-            color: var(--dir-gris);
+        .gov-text .republic {
+            font-size: 16px;
+            color: #666;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
         
-        .page-title {
-            color: white;
-            font-size: 28px;
-            font-weight: 700;
-            margin: 10px 0;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
-        
-        .page-subtitle {
-            color: white;
-            font-size: 16px;
-            opacity: 0.95;
-        }
-        
-        /* Navigation des étapes */
-        .steps-nav {
-            background: var(--dir-bleu);
-            padding: 0;
-            display: flex;
-            border-top: 3px solid var(--dir-orange);
-        }
-        
-        .step-indicator {
-            flex: 1;
-            padding: 15px;
-            text-align: center;
-            color: white;
-            opacity: 0.6;
-            position: relative;
-            transition: var(--transition);
-            cursor: default;
-        }
-        
-        .step-indicator.active {
-            opacity: 1;
-            background: var(--dir-bleu-clair);
-        }
-        
-        .step-indicator.completed {
-            opacity: 0.8;
-            cursor: pointer;
-        }
-        
-        .step-indicator.completed:hover {
-            background: rgba(255,255,255,0.1);
-        }
-        
-        .step-indicator::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--dir-orange);
-            transform: scaleX(0);
-            transition: transform 0.3s;
-        }
-        
-        .step-indicator.active::after {
-            transform: scaleX(1);
-        }
-        
-        .step-num {
-            font-size: 12px;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-        
-        .step-name {
-            font-size: 14px;
-        }
-        
-        /* Contenu */
-        .content-area {
-            padding: 0;
-            background: white;
-        }
-        
-        .step-content {
-            display: none;
-            padding: 40px;
-            animation: fadeIn 0.4s ease;
-        }
-        
-        .step-content.active {
-            display: block;
-        }
-        
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        /* Titre de section */
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 3px solid var(--dir-orange);
-        }
-        
-        .section-number {
-            width: 45px;
-            height: 45px;
-            background: var(--dir-bleu);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
+        .gov-text .ministry {
             font-size: 20px;
+            color: #000091;
+            font-weight: 600;
+            margin-top: 2px;
         }
         
-        .section-title {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--dir-bleu);
+        /* Navigation secondaire */
+        .nav-secondary {
+            background: #000091;
+            color: white;
+            padding: 15px 0;
+        }
+        
+        .nav-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .nav-subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-top: 3px;
+        }
+        
+        /* Breadcrumb */
+        .breadcrumb {
+            background: white;
+            padding: 12px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .breadcrumb-list {
+            display: flex;
+            gap: 10px;
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .breadcrumb-list span {
+            color: #ddd;
+        }
+        
+        .breadcrumb-list a {
+            color: #000091;
+            text-decoration: none;
+        }
+        
+        .breadcrumb-list a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Contenu principal */
+        .main-content {
+            padding: 30px 0;
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 30px;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            background: white;
+            border-radius: 4px;
+            padding: 20px;
+            height: fit-content;
+        }
+        
+        .sidebar-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #000091;
+        }
+        
+        .step-list {
+            list-style: none;
+        }
+        
+        .step-list li {
+            padding: 10px;
+            border-left: 3px solid transparent;
+            margin-bottom: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .step-list li:hover {
+            background: #f0f0f0;
+        }
+        
+        .step-list li.active {
+            background: #f0f0f0;
+            border-left-color: #000091;
+            font-weight: 600;
+        }
+        
+        .step-list li.completed {
+            color: #00a658;
+        }
+        
+        .step-list li.locked {
+            color: #aaa;
+            cursor: not-allowed;
+        }
+        
+        /* Carte de contenu */
+        .content-card {
+            background: white;
+            border-radius: 4px;
+            padding: 30px;
+        }
+        
+        .content-header {
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .content-header h1 {
+            font-size: 28px;
+            color: #1e1e1e;
+            margin-bottom: 8px;
+        }
+        
+        .content-header p {
+            color: #666;
+            font-size: 16px;
         }
         
         /* Formulaire */
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
         
         .form-label {
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
-            color: var(--dir-bleu);
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            color: #1e1e1e;
         }
         
-        .form-label::after {
-            content: ' *';
-            color: var(--dir-rouge);
+        .form-label .required {
+            color: #e1000f;
         }
         
         .form-input,
         .form-select {
             width: 100%;
-            padding: 12px 15px;
-            border: 2px solid var(--dir-gris-clair);
-            background: white;
-            font-size: 16px;
-            transition: var(--transition);
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: border-color 0.2s;
         }
         
         .form-input:focus,
         .form-select:focus {
             outline: none;
-            border-color: var(--dir-bleu);
-            box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1);
+            border-color: #000091;
+            box-shadow: 0 0 0 2px rgba(0, 0, 145, 0.1);
         }
         
         /* Boutons */
         .btn {
             display: inline-block;
-            padding: 12px 30px;
-            font-size: 16px;
+            padding: 10px 24px;
+            font-size: 14px;
             font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
             border: none;
+            border-radius: 4px;
             cursor: pointer;
-            transition: var(--transition);
+            transition: all 0.2s;
             text-decoration: none;
-            margin: 5px;
         }
         
         .btn-primary {
-            background: var(--dir-orange);
+            background: #000091;
             color: white;
-            box-shadow: var(--shadow-md);
         }
         
         .btn-primary:hover {
-            background: #E55500;
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
+            background: #0000b3;
         }
         
         .btn-secondary {
-            background: var(--dir-gris);
-            color: white;
-            box-shadow: var(--shadow-md);
+            background: #fff;
+            color: #000091;
+            border: 1px solid #000091;
         }
         
         .btn-secondary:hover {
-            background: #333333;
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
+            background: #f0f0f0;
         }
         
-        /* Navigation des modules */
-        .modules-nav {
+        /* Modules */
+        .modules-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 10px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
             margin-bottom: 25px;
         }
         
         .module-btn {
-            padding: 12px;
-            background: white;
-            border: 2px solid var(--dir-gris-clair);
-            color: var(--dir-gris);
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            transition: var(--transition);
+            padding: 15px;
+            background: #f8f8f8;
+            border: 1px solid #ddd;
+            border-radius: 4px;
             text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
         }
         
         .module-btn:hover {
-            background: var(--dir-gris-clair);
-            transform: translateY(-2px);
+            background: #f0f0f0;
+            border-color: #000091;
         }
         
         .module-btn.active {
-            background: var(--dir-bleu);
+            background: #000091;
             color: white;
-            border-color: var(--dir-bleu);
+            border-color: #000091;
         }
         
-        .module-btn .icon {
-            display: block;
-            font-size: 20px;
-            margin-bottom: 5px;
-        }
-        
-        /* Container des modules */
         .module-viewer {
-            border: 3px solid var(--dir-gris-clair);
-            height: 600px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            height: 500px;
             background: white;
             margin-bottom: 25px;
         }
         
-        .module-frame {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        
-        /* Barre de progression */
-        .progress-section {
-            margin-bottom: 30px;
-            background: var(--dir-gris-clair);
-            padding: 20px;
-            border-radius: 5px;
-        }
-        
-        .progress-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            font-weight: 600;
-            color: var(--dir-bleu);
-        }
-        
+        /* Quiz */
         .progress-bar {
-            height: 30px;
-            background: white;
-            border: 2px solid var(--dir-bleu);
-            position: relative;
+            background: #e0e0e0;
+            height: 8px;
+            border-radius: 4px;
+            margin-bottom: 25px;
             overflow: hidden;
         }
         
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--dir-bleu) 0%, var(--dir-bleu-clair) 100%);
-            transition: width 0.5s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 700;
+            background: #000091;
+            transition: width 0.3s;
         }
         
-        /* Questions */
         .question-card {
-            background: var(--dir-gris-clair);
-            padding: 30px;
+            background: #f8f8f8;
+            padding: 25px;
+            border-radius: 4px;
             margin-bottom: 25px;
-            border-left: 5px solid var(--dir-orange);
-        }
-        
-        .question-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .question-number {
-            background: var(--dir-orange);
-            color: white;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
         }
         
         .question-text {
             font-size: 18px;
-            font-weight: 600;
-            color: var(--dir-bleu);
-            line-height: 1.5;
             margin-bottom: 20px;
-        }
-        
-        .answers-grid {
-            display: grid;
-            gap: 12px;
+            color: #1e1e1e;
         }
         
         .answer-option {
             background: white;
-            border: 2px solid var(--dir-gris-clair);
+            border: 1px solid #ddd;
             padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 4px;
             cursor: pointer;
-            transition: var(--transition);
+            transition: all 0.2s;
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
         }
         
         .answer-option:hover {
-            border-color: var(--dir-bleu);
-            background: #F0F5FF;
+            border-color: #000091;
         }
         
         .answer-option.selected {
-            border-color: var(--dir-bleu);
-            background: #E6F0FF;
-            box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1);
+            background: #000091;
+            color: white;
+            border-color: #000091;
         }
         
         .radio-circle {
             width: 20px;
             height: 20px;
-            border: 2px solid var(--dir-gris);
+            border: 2px solid #666;
             border-radius: 50%;
             position: relative;
-            transition: var(--transition);
         }
         
         .answer-option.selected .radio-circle {
-            border-color: var(--dir-bleu);
+            border-color: white;
         }
         
         .answer-option.selected .radio-circle::after {
@@ -543,411 +366,253 @@
             transform: translate(-50%, -50%);
             width: 10px;
             height: 10px;
-            background: var(--dir-bleu);
-            border-radius: 50%;
-        }
-        
-        /* Notification toast */
-        .toast {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px 20px;
             background: white;
-            border-left: 4px solid var(--dir-vert);
-            box-shadow: var(--shadow-lg);
-            transform: translateX(400px);
-            transition: transform 0.3s ease;
-            z-index: 1000;
-            max-width: 350px;
-        }
-        
-        .toast.show {
-            transform: translateX(0);
-        }
-        
-        .toast.error {
-            border-left-color: var(--dir-rouge);
-        }
-        
-        .toast.warning {
-            border-left-color: var(--dir-jaune);
-        }
-        
-        .toast-title {
-            font-weight: 700;
-            margin-bottom: 5px;
-            color: var(--dir-bleu);
-        }
-        
-        .toast-message {
-            color: var(--dir-gris);
-            font-size: 14px;
-        }
-        
-        /* Page de résultats */
-        .results-container {
-            text-align: center;
-            padding: 50px;
-        }
-        
-        .result-badge {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 30px;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 60px;
+        }
+        
+        /* Message d'information */
+        .info-box {
+            background: #f3f4f6;
+            border-left: 4px solid #000091;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .info-box strong {
+            color: #000091;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #1e1e1e;
             color: white;
-            animation: popIn 0.5s ease;
+            padding: 30px 0;
+            margin-top: 50px;
         }
         
-        .result-badge.success {
-            background: var(--dir-vert);
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
         }
         
-        .result-badge.fail {
-            background: var(--dir-rouge);
-        }
-        
-        @keyframes popIn {
-            from {
-                transform: scale(0);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-        
-        .result-title {
-            font-size: 32px;
-            color: var(--dir-bleu);
-            margin-bottom: 15px;
-            font-weight: 700;
-        }
-        
-        .result-details {
-            background: var(--dir-gris-clair);
-            padding: 25px;
-            margin: 30px auto;
-            max-width: 500px;
-            border-radius: 5px;
-        }
-        
-        .result-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid white;
-        }
-        
-        .result-row:last-child {
-            border-bottom: none;
-        }
-        
-        .result-label {
-            font-weight: 600;
-            color: var(--dir-gris);
-        }
-        
-        .result-value {
-            font-weight: 700;
-            color: var(--dir-bleu);
-        }
-        
-        .info-alert {
-            background: #FFF3E0;
-            border-left: 4px solid var(--dir-jaune);
-            padding: 20px;
-            margin: 25px 0;
-            text-align: left;
-        }
-        
-        .info-alert-title {
-            font-weight: 700;
-            color: var(--dir-bleu);
+        .footer-section h3 {
+            font-size: 24px;
             margin-bottom: 10px;
         }
         
-        .info-alert-text {
-            color: var(--dir-gris);
-            line-height: 1.6;
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            display: block;
+            padding: 3px 0;
+            font-size: 13px;
+        }
+        
+        .footer-section a:hover {
+            color: white;
+        }
+        
+        .step-content {
+            display: none;
+        }
+        
+        .step-content.active {
+            display: block;
         }
         
         /* Responsive */
         @media (max-width: 768px) {
-            .main-wrapper {
-                padding: 10px;
+            .content-grid {
+                grid-template-columns: 1fr;
             }
             
-            .step-content {
-                padding: 20px;
+            .modules-grid {
+                grid-template-columns: 1fr;
             }
             
-            .modules-nav {
-                grid-template-columns: repeat(2, 1fr);
+            .footer-content {
+                grid-template-columns: 1fr;
             }
-            
-            .steps-nav {
-                flex-direction: column;
-            }
-            
-            .module-viewer {
-                height: 450px;
-            }
-        }
-        
-        .hidden {
-            display: none !important;
         }
     </style>
 </head>
 <body>
-    <!-- Bannière République Française -->
-    <div class="top-banner">
-        <div class="top-banner-content">
-            <div class="republique">
-                <div class="marianne">RF</div>
-                <div class="republique-text">
-                    <div>République Française</div>
-                    <div>Ministère de la Transition Écologique</div>
+    <!-- Header gouvernemental -->
+    <header class="gov-header">
+        <div class="container">
+            <div class="gov-identity">
+                <div class="gov-logo">
+                    <div class="flag">
+                        <img src="https://upload.wikimedia.org/wikipedia/fr/thumb/b/bf/Logo_Minist%C3%A8re_Am%C3%A9nagement_du_territoire_D%C3%A9centralisation_Logement_Transports_Ruralit%C3%A9_Ville.jpg/1200px-Logo_Minist%C3%A8re_Am%C3%A9nagement_du_territoire_D%C3%A9centralisation_Logement_Transports_Ruralit%C3%A9_Ville.jpg" alt="République Française">
+                    </div>
+                    <div class="gov-text">
+                        <div class="republic">République Française</div>
+                        <div class="ministry">Ministère de l'Aménagement du Territoire et de la Décentralisation</div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <!-- Container principal -->
-    <div class="main-wrapper">
-        <div class="main-card">
-            <!-- En-tête DIR -->
-            <div class="dir-header">
-                <div class="dir-identity">
-                    <div class="dir-logo">
-                        <div class="dir-logo-icon">DIR</div>
-                        <div class="dir-logo-text">
-                            <div class="acronym">DIR GALAX</div>
-                            <div class="full">Direction Interdépartementale des Routes</div>
-                        </div>
-                    </div>
-                    <h1 class="page-title">Plateforme de Formation et d'Évaluation</h1>
-                    <p class="page-subtitle">Système de qualification des formateurs - Session 2025</p>
-                </div>
-            </div>
-
-            <!-- Navigation des étapes -->
-            <div class="steps-nav">
-                <div class="step-indicator active" id="nav-step-1">
-                    <div class="step-num">ÉTAPE 1</div>
-                    <div class="step-name">Identification</div>
-                </div>
-                <div class="step-indicator" id="nav-step-2">
-                    <div class="step-num">ÉTAPE 2</div>
-                    <div class="step-name">Formation</div>
-                </div>
-                <div class="step-indicator" id="nav-step-3">
-                    <div class="step-num">ÉTAPE 3</div>
-                    <div class="step-name">Évaluation</div>
-                </div>
-                <div class="step-indicator" id="nav-step-4">
-                    <div class="step-num">ÉTAPE 4</div>
-                    <div class="step-name">Résultats</div>
-                </div>
-            </div>
-
-            <!-- Zone de contenu -->
-            <div class="content-area">
-                <!-- Étape 1: Identification -->
-                <div class="step-content active" id="step-1">
-                    <div class="section-header">
-                        <div class="section-number">1</div>
-                        <h2 class="section-title">Identification du candidat formateur</h2>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="nom">Nom de famille</label>
-                        <input type="text" id="nom" class="form-input" placeholder="Saisissez votre nom" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="prenom">Prénom</label>
-                        <input type="text" id="prenom" class="form-input" placeholder="Saisissez votre prénom" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="type">Catégorie de candidature</label>
-                        <select id="type" class="form-select" required>
-                            <option value="">-- Sélectionnez votre catégorie --</option>
-                            <option value="certifie">Formateur Certifié</option>
-                            <option value="test">Formateur en Test</option>
-                            <option value="aide">Aide-Formateur</option>
-                        </select>
-                    </div>
-                    
-                    <div style="margin-top: 30px;">
-                        <button class="btn btn-primary" onclick="goToStep(2)">
-                            ACCÉDER À LA FORMATION →
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Étape 2: Formation -->
-                <div class="step-content" id="step-2">
-                    <div class="section-header">
-                        <div class="section-number">2</div>
-                        <h2 class="section-title">Modules de formation obligatoires</h2>
-                    </div>
-                    
-                    <p style="margin-bottom: 25px; color: var(--dir-gris);">
-                        Consultez l'ensemble des modules de formation. Ces informations sont essentielles pour la réussite de votre évaluation.
-                    </p>
-                    
-                    <div class="modules-nav">
-                        <button class="module-btn active" onclick="showModule(1)">
-                            Types de formateurs
-                        </button>
-                        <button class="module-btn" onclick="showModule(2)">
-                            Préparation
-                        </button>
-                        <button class="module-btn" onclick="showModule(3)">
-                            Déroulement
-                        </button>
-                        <button class="module-btn" onclick="showModule(4)">
-                            Codes DIGIJOB
-                        </button>
-                        <button class="module-btn" onclick="showModule(5)">
-                            Situations pratiques
-                        </button>
-                        <button class="module-btn" onclick="showModule(6)">
-                            Clôture session
-                        </button>
-                    </div>
-                    
-                    <div class="module-viewer">
-                        <iframe id="module-frame" class="module-frame" src=""></iframe>
-                    </div>
-                    
-                    <div style="margin-top: 30px;">
-                        <button class="btn btn-secondary" onclick="goToStep(1)">
-                            ← RETOUR
-                        </button>
-                        <button class="btn btn-primary" onclick="goToStep(3)">
-                            COMMENCER L'ÉVALUATION →
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Étape 3: Évaluation -->
-                <div class="step-content" id="step-3">
-                    <div class="section-header">
-                        <div class="section-number">3</div>
-                        <h2 class="section-title">Questionnaire d'évaluation</h2>
-                    </div>
-                    
-                    <div class="progress-section">
-                        <div class="progress-header">
-                            <span>Progression de l'évaluation</span>
-                            <span id="progress-text">Question 1 sur 15</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" id="progress" style="width: 0%;">0%</div>
-                        </div>
-                    </div>
-                    
-                    <div id="question-container"></div>
-                    
-                    <div style="text-align: center; margin-top: 35px;">
-                        <button class="btn btn-secondary hidden" id="prevBtn" onclick="previousQuestion()">
-                            ← QUESTION PRÉCÉDENTE
-                        </button>
-                        <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">
-                            QUESTION SUIVANTE →
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Remplacer la section Étape 4: Résultats -->
-<div class="step-content" id="step-4">
-    <div class="results-container">
-        <div style="width: 120px; height: 120px; margin: 0 auto 30px; border-radius: 50%; background: var(--dir-bleu); display: flex; align-items: center; justify-content: center; animation: popIn 0.5s ease;">
-            <span style="color: white; font-size: 60px;">📋</span>
+    </header>
+    
+    <!-- Navigation secondaire -->
+    <nav class="nav-secondary">
+        <div class="container">
+            <div class="nav-title">Direction Interdépartementale des Routes</div>
+            <div class="nav-subtitle">Plateforme de formation des formateurs</div>
         </div>
-        
-        <h2 class="result-title" style="color: var(--dir-bleu); margin-bottom: 20px;">
-            ÉVALUATION TERMINÉE
-        </h2>
-        
-        <div style="max-width: 600px; margin: 0 auto; text-align: center;">
-            <p style="font-size: 18px; color: var(--dir-gris); margin-bottom: 30px; line-height: 1.8;">
-                Votre évaluation a été complétée avec succès et transmise automatiquement au service de formation de la DIR Galax.
-            </p>
-            
-            <div style="background: #F0F8FF; border: 2px solid var(--dir-bleu); border-radius: 10px; padding: 25px; margin: 30px 0;">
-                <h3 style="color: var(--dir-bleu); margin-bottom: 15px;">📨 Prochaines étapes</h3>
-                <p style="color: var(--dir-gris); line-height: 1.6;">
-                    Un responsable de formation analysera vos réponses et vous contactera <strong>dans les 24 à 48 heures</strong> via Discord pour vous communiquer :
-                </p>
-                <ul style="text-align: left; margin: 15px 0; color: var(--dir-gris);">
-                    <li>Vos résultats détaillés</li>
-                    <li>Votre statut de validation</li>
-                    <li>Les éventuelles étapes suivantes</li>
-                    <li>La date de prise de fonction si applicable</li>
-                </ul>
-            </div>
-            
-            <div style="background: #FFF3E0; border-left: 4px solid var(--dir-jaune); padding: 20px; margin: 25px 0; text-align: left;">
-                <strong style="color: var(--dir-bleu);">💡 Important :</strong><br>
-                <span style="color: var(--dir-gris);">
-                    Assurez-vous d'être joignable sur Discord et de vérifier vos messages privés. 
-                    Le responsable vous contactera via le serveur officiel DIR Galax.
-                </span>
-            </div>
-            
-            <div style="background: var(--dir-gris-clair); padding: 20px; border-radius: 10px; margin: 25px 0;">
-                <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid white;">
-                    <span style="font-weight: 600; color: var(--dir-gris);">Candidat :</span>
-                    <span style="font-weight: 700; color: var(--dir-bleu);" id="candidate-name"></span>
-                </div>
-                <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid white;">
-                    <span style="font-weight: 600; color: var(--dir-gris);">Type de formation :</span>
-                    <span style="font-weight: 700; color: var(--dir-bleu);" id="candidate-type"></span>
-                </div>
-                <div style="display: flex; justify-content: space-between; padding: 10px 0;">
-                    <span style="font-weight: 600; color: var(--dir-gris);">Date d'évaluation :</span>
-                    <span style="font-weight: 700; color: var(--dir-bleu);" id="evaluation-date"></span>
-                </div>
-            </div>
-        </div>
-        
-        <div style="margin-top: 40px;">
-            <button class="btn btn-secondary" onclick="goToStep(2)">
-                CONSULTER LES MODULES
-            </button>
-        </div>
-    </div>
-</div>
+    </nav>
+    
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <div class="container">
+            <div class="breadcrumb-list">
+                <a href="#">Accueil</a>
+                <span>›</span>
+                <a href="#">Formation</a>
+                <span>›</span>
+                <span>Évaluation formateurs</span>
             </div>
         </div>
     </div>
     
-    <!-- Toast de notification -->
-    <div class="toast" id="toast">
-        <div class="toast-title" id="toast-title">Notification</div>
-        <div class="toast-message" id="toast-message"></div>
-    </div>
-
+    <!-- Contenu principal -->
+    <main class="main-content">
+        <div class="container">
+            <div class="content-grid">
+                <!-- Sidebar -->
+                <aside class="sidebar">
+                    <h2 class="sidebar-title">Étapes de formation</h2>
+                    <ul class="step-list">
+                        <li class="active" onclick="goToStep(1)">1. Identification</li>
+                        <li onclick="goToStep(2)">2. Modules de formation</li>
+                        <li class="locked">3. Évaluation</li>
+                        <li class="locked">4. Résultats</li>
+                    </ul>
+                </aside>
+                
+                <!-- Contenu -->
+                <div class="content-card">
+                    <!-- Étape 1 -->
+                    <div class="step-content active" id="step-1">
+                        <div class="content-header">
+                            <h1>Identification du candidat</h1>
+                            <p>Veuillez renseigner vos informations pour accéder à la formation</p>
+                        </div>
+                        
+                        <form>
+                            <div class="form-group">
+                                <label class="form-label">
+                                    Nom <span class="required">*</span>
+                                </label>
+                                <input type="text" class="form-input" id="nom" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">
+                                    Prénom <span class="required">*</span>
+                                </label>
+                                <input type="text" class="form-input" id="prenom" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">
+                                    Type de formation <span class="required">*</span>
+                                </label>
+                                <select class="form-select" id="type" required>
+                                    <option value="">Sélectionnez...</option>
+                                    <option value="certifie">Formateur certifié</option>
+                                    <option value="test">Formateur en test</option>
+                                    <option value="aide">Aide-formateur</option>
+                                </select>
+                            </div>
+                            
+                            <button type="button" class="btn btn-primary" onclick="goToStep(2)">
+                                Continuer
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <!-- Étape 2 -->
+                    <div class="step-content" id="step-2">
+                        <div class="content-header">
+                            <h1>Modules de formation</h1>
+                            <p>Consultez les modules avant de passer à l'évaluation</p>
+                        </div>
+                        
+                        <div class="modules-grid">
+                            <button class="module-btn active" onclick="showModule(1)">Types de formateurs</button>
+                            <button class="module-btn" onclick="showModule(2)">Préparation</button>
+                            <button class="module-btn" onclick="showModule(3)">Déroulement</button>
+                            <button class="module-btn" onclick="showModule(4)">Codes DIGIJOB</button>
+                            <button class="module-btn" onclick="showModule(5)">Situations</button>
+                            <button class="module-btn" onclick="showModule(6)">Clôture</button>
+                        </div>
+                        
+                        <div class="module-viewer">
+                            <iframe id="module-frame" style="width:100%;height:100%;border:none;"></iframe>
+                        </div>
+                        
+                        <button class="btn btn-secondary" onclick="goToStep(1)">Retour</button>
+                        <button class="btn btn-primary" onclick="goToStep(3)">Commencer l'évaluation</button>
+                    </div>
+                    
+                    <!-- Étape 3 -->
+                    <div class="step-content" id="step-3">
+                        <div class="content-header">
+                            <h1>Évaluation</h1>
+                            <p>Répondez aux questions pour valider votre formation</p>
+                        </div>
+                        
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress" style="width: 0%"></div>
+                        </div>
+                        
+                        <div id="question-container"></div>
+                        
+                        <button class="btn btn-secondary" id="prevBtn" onclick="previousQuestion()" style="display:none">Précédent</button>
+                        <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">Suivant</button>
+                    </div>
+                    
+                    <!-- Étape 4 -->
+                    <div class="step-content" id="step-4">
+                        <div class="content-header">
+                            <h1>Évaluation terminée</h1>
+                            <p>Votre évaluation a été enregistrée</p>
+                        </div>
+                        
+                        <div class="info-box">
+                            <strong>Information importante</strong><br>
+                            Vos résultats ont été transmis au service de formation. Vous serez contacté dans un délai de 24 à 48 heures pour connaître les résultats de votre évaluation.
+                        </div>
+                        
+                        <p>Candidat : <strong id="candidate-name"></strong></p>
+                        <p>Type : <strong id="candidate-type"></strong></p>
+                        <p>Date : <strong id="evaluation-date"></strong></p>
+                        
+                        <br>
+                        <button class="btn btn-secondary" onclick="goToStep(2)">Revoir les modules</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>© Galax Rôleplay 2025 - Tous droits réservés. Toute reproduction, distribution ou utilisation non autorisée du contenu est strictement interdite et réglementée.</p>
+        </div>
+    </footer>
+    
     <script>
-        // Variables globales
         let currentStep = 1;
         let currentQuestion = 0;
-        let score = 0;
         let answers = [];
+        let score = 0;
         let userInfo = {};
+        let quizLocked = false;
         
-        // Questions du quiz
         const questions = [
             {
                 question: "Combien de types de formateurs sont définis dans le système DIR ?",
@@ -1025,8 +690,7 @@
                 correct: 0
             }
         ];
-
-        // Contenus des modules avec style DIR
+        
         const modules = {
             1: `<!DOCTYPE html>
 <html><head><meta charset="UTF-8"><style>
@@ -1400,137 +1064,81 @@ Les candidats seront contactés sous 24-48h
 </div>
 </body></html>`
         };
-
-        // Fonctions principales
-        function goToStep(stepNumber) {
-            if (stepNumber === 2) {
-                const nom = document.getElementById('nom').value.trim();
-                const prenom = document.getElementById('prenom').value.trim();
+        
+        function goToStep(step) {
+            if (quizLocked && step < 3) return;
+            
+            if (step === 2) {
+                const nom = document.getElementById('nom').value;
+                const prenom = document.getElementById('prenom').value;
                 const type = document.getElementById('type').value;
                 
                 if (!nom || !prenom || !type) {
-                    showToast('Champs obligatoires', 'Veuillez remplir tous les champs', 'error');
+                    alert('Veuillez remplir tous les champs');
                     return;
                 }
                 
                 userInfo = { nom, prenom, type };
             }
             
-            if (stepNumber === 3) {
+            if (step === 3) {
+                quizLocked = true;
                 currentQuestion = 0;
                 answers = [];
                 loadQuestion();
+                updateSidebar();
             }
             
-            // Mise à jour navigation
-            document.querySelectorAll('.step-indicator').forEach((indicator, index) => {
-                indicator.classList.remove('active');
-                if (index + 1 === stepNumber) {
-                    indicator.classList.add('active');
-                }
-                if (index + 1 < stepNumber) {
-                    indicator.classList.add('completed');
+            document.querySelectorAll('.step-content').forEach(s => s.classList.remove('active'));
+            document.getElementById('step-' + step).classList.add('active');
+            
+            updateSidebar();
+        }
+        
+        function updateSidebar() {
+            const items = document.querySelectorAll('.step-list li');
+            items.forEach((item, index) => {
+                item.classList.remove('active');
+                if (quizLocked && index < 2) {
+                    item.classList.add('locked');
                 }
             });
             
-            // Affichage de l'étape
-            document.querySelectorAll('.step-content').forEach(step => {
-                step.classList.remove('active');
-            });
-            
-            document.getElementById(`step-${stepNumber}`).classList.add('active');
-            currentStep = stepNumber;
-            
-            if (stepNumber === 2) {
-                showModule(1);
-            }
+            if (document.getElementById('step-1').classList.contains('active')) items[0].classList.add('active');
+            if (document.getElementById('step-2').classList.contains('active')) items[1].classList.add('active');
+            if (document.getElementById('step-3').classList.contains('active')) items[2].classList.add('active');
+            if (document.getElementById('step-4').classList.contains('active')) items[3].classList.add('active');
         }
         
         function showModule(num) {
-            document.querySelectorAll('.module-btn').forEach((btn, index) => {
-                btn.classList.toggle('active', index + 1 === num);
-            });
-            
-            const frame = document.getElementById('module-frame');
-            if (frame && modules[num]) {
-                frame.srcdoc = modules[num];
-            }
+            document.querySelectorAll('.module-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.module-btn')[num-1].classList.add('active');
+            document.getElementById('module-frame').srcdoc = modules[num];
         }
         
         function loadQuestion() {
-            const container = document.getElementById('question-container');
             const q = questions[currentQuestion];
+            const container = document.getElementById('question-container');
             
             container.innerHTML = `
                 <div class="question-card">
-                    <div class="question-header">
-                        <div class="question-number">${currentQuestion + 1}</div>
-                        <div style="color: #4A4A4A; font-size: 14px;">Question ${currentQuestion + 1} sur ${questions.length}</div>
-                    </div>
-                    <div class="question-text">${q.question}</div>
-                    <div class="answers-grid">
-                        ${q.answers.map((answer, index) => `
-                            <div class="answer-option" onclick="selectAnswer(${index})">
-                                <div class="radio-circle"></div>
-                                <span>${answer}</span>
-                            </div>
-                        `).join('')}
-                    </div>
+                    <div class="question-text">Question ${currentQuestion + 1}/${questions.length}: ${q.question}</div>
+                    ${q.answers.map((a, i) => `
+                        <div class="answer-option" onclick="selectAnswer(${i})">
+                            <div class="radio-circle"></div>
+                            <span>${a}</span>
+                        </div>
+                    `).join('')}
                 </div>
             `;
             
             if (answers[currentQuestion] !== undefined) {
-                const selected = container.querySelectorAll('.answer-option')[answers[currentQuestion]];
-                if (selected) selected.classList.add('selected');
+                document.querySelectorAll('.answer-option')[answers[currentQuestion]].classList.add('selected');
             }
             
             updateProgress();
             updateButtons();
         }
-        
-        function selectAnswer(index) {
-            document.querySelectorAll('.answer-option').forEach(a => a.classList.remove('selected'));
-            document.querySelectorAll('.answer-option')[index].classList.add('selected');
-            answers[currentQuestion] = index;
-        }
-        
-        function nextQuestion() {
-            if (answers[currentQuestion] === undefined) {
-                showToast('Réponse requise', 'Veuillez sélectionner une réponse', 'warning');
-                return;
-            }
-            
-            if (currentQuestion < questions.length - 1) {
-                currentQuestion++;
-                loadQuestion();
-            } else {
-                finishQuiz();
-            }
-        }
-        
-        function previousQuestion() {
-            if (currentQuestion > 0) {
-                currentQuestion--;
-                loadQuestion();
-            }
-        }
-        
-        function updateProgress() {
-            const percentage = Math.round(((currentQuestion + 1) / questions.length) * 100);
-            const progress = document.getElementById('progress');
-            const progressText = document.getElementById('progress-text');
-            
-            progress.style.width = percentage + '%';
-            progress.textContent = percentage + '%';
-            progressText.textContent = `Question ${currentQuestion + 1} sur ${questions.length}`;
-        }
-        
-        function updateButtons() {
-            document.getElementById('prevBtn').classList.toggle('hidden', currentQuestion === 0);
-            document.getElementById('nextBtn').textContent = 
-                currentQuestion === questions.length - 1 ? 'TERMINER L\'ÉVALUATION' : 'QUESTION SUIVANTE →';
-        }
-        
         function finishQuiz() {
     // Calculer le score en interne sans l'afficher
     score = 0;
@@ -1558,91 +1166,363 @@ Les candidats seront contactés sous 24-48h
     showToast('Évaluation terminée', 'Vos réponses ont été transmises', 'success');
 }
         
-        function sendResults(percentage, passed) {
-            const status = passed ? 'ADMIS' : 'AJOURNÉ';
-            const typeLabel = userInfo.type === 'certifie' ? 'Formateur Certifié' : 
-                             userInfo.type === 'test' ? 'Formateur en Test' : 'Aide-Formateur';
+     // ===========================================
+// CONFIGURATION DU WEBHOOK DISCORD
+// ===========================================
+
+// Remplacez par votre URL de webhook Discord
+const WEBHOOK_URL = 'https://discord.com/api/webhooks/1416783632172847114/XKWomZNvwN-9xeFVVLKyL0FEWLAL56LAusrpc1MTcrBbkpTl7N_9ouqLcNTtOFHAAC9O';
+
+// Configuration des couleurs pour les embeds
+const COLORS = {
+    SUCCESS: 0x00FF00,  // Vert pour réussite
+    FAILURE: 0xFF0000,  // Rouge pour échec
+    INFO: 0x0099FF,     // Bleu pour info
+    WARNING: 0xFFAA00   // Orange pour avertissement
+};
+
+// Labels pour les types de formation
+const TYPE_LABELS = {
+    'certifie': 'Formateur Certifié',
+    'test': 'Formateur en Test',
+    'aide': 'Aide-Formateur'
+};
+
+// ===========================================
+// FONCTION PRINCIPALE D'ENVOI DISCORD
+// ===========================================
+
+async function sendToDiscord(percentage, passed) {
+    const status = passed ? 'ADMIS' : 'AJOURNÉ';
+    const statusEmoji = passed ? '✅' : '❌';
+    const embedColor = passed ? COLORS.SUCCESS : COLORS.FAILURE;
+    
+    // Construction du payload Discord
+    const payload = createDiscordPayload(percentage, passed, status, statusEmoji, embedColor);
+    
+    try {
+        console.log('Envoi des données vers Discord...', payload);
+        
+        const response = await fetch(WEBHOOK_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+        
+        // Vérification de la réponse
+        if (response.ok) {
+            console.log('✅ Webhook envoyé avec succès');
+            showToast('Succès', 'Résultats transmis à Discord', 'success');
+            return true;
+        } else {
+            const errorText = await response.text();
+            console.error('❌ Erreur webhook:', response.status, response.statusText);
+            console.error('Détails de l\'erreur:', errorText);
             
-            const webhookURL = 'https://discord.com/api/webhooks/1416783632172847114/XKWomZNvwN-9xeFVVLKyL0FEWLAL56LAusrpc1MTcrBbkpTl7N_9ouqLcNTtOFHAAC9O';
-            
-            const embedColor = passed ? 0x00A651 : 0xDC143C;
-            
-            const discordMessage = {
-                embeds: [{
-                    title: '📊 RÉSULTATS ÉVALUATION DIR GALAX',
-                    color: embedColor,
-                    thumbnail: {
-                        url: 'https://cdn.discordapp.com/attachments/1234567890/1234567890/dir_logo.png'
-                    },
-                    fields: [
-                        {
-                            name: '👤 Candidat',
-                            value: `**${userInfo.prenom} ${userInfo.nom}**`,
-                            inline: true
-                        },
-                        {
-                            name: '📋 Type de formation',
-                            value: typeLabel,
-                            inline: true
-                        },
-                        {
-                            name: '📊 Score obtenu',
-                            value: `**${score}/${questions.length}** (${percentage}%)`,
-                            inline: true
-                        },
-                        {
-                            name: passed ? '✅ STATUT' : '❌ STATUT',
-                            value: `**${status}**`,
-                            inline: true
-                        },
-                        {
-                            name: '📅 Date d\'évaluation',
-                            value: new Date().toLocaleString('fr-FR'),
-                            inline: true
-                        },
-                        {
-                            name: '🏢 Centre d\'examen',
-                            value: 'DIR GALAX - Formation en ligne',
-                            inline: true
-                        }
-                    ],
-                    footer: {
-                        text: 'Direction Interdépartementale des Routes - Système de Formation',
-                        icon_url: 'https://cdn.discordapp.com/attachments/1234567890/1234567890/rf_icon.png'
-                    },
-                    timestamp: new Date().toISOString()
-                }]
-            };
-            
-            // Ajouter un message de recommandation selon le résultat
-            if (passed) {
-                discordMessage.content = `🎉 **Nouveau formateur validé !** ${userInfo.prenom} ${userInfo.nom} a réussi l'évaluation DIR.`;
-            } else {
-                discordMessage.content = `📝 **Évaluation non validée** - ${userInfo.prenom} ${userInfo.nom} devra repasser l'évaluation.`;
-            }
-            
-            // Envoi vers Discord
-            fetch(webhookURL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(discordMessage)
-            })
-            .then(response => {
-                if (response.ok) {
-                    console.log('Résultats transmis avec succès');
-                    showToast('Transmission réussie', 'Vos résultats ont été envoyés', 'success');
-                } else {
-                    console.error('Erreur lors de l\'envoi');
-                    showToast('Erreur de transmission', 'Veuillez contacter un formateur', 'error');
-                }
-            })
-            .catch(error => {
-                console.error('Erreur réseau:', error);
-                showToast('Erreur réseau', 'Vérifiez votre connexion', 'error');
-            });
+            // Tentative avec un payload simplifié en cas d'échec
+            return await sendSimpleMessage(percentage, passed, status);
         }
+        
+    } catch (error) {
+        console.error('❌ Erreur réseau:', error);
+        
+        // Tentative avec un payload simplifié en cas d'échec réseau
+        return await sendSimpleMessage(percentage, passed, status);
+    }
+}
+
+// ===========================================
+// CRÉATION DU PAYLOAD DISCORD PRINCIPAL
+// ===========================================
+
+function createDiscordPayload(percentage, passed, status, statusEmoji, embedColor) {
+    const currentDate = new Date();
+    const formattedDate = currentDate.toLocaleString('fr-FR', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    });
+    
+    return {
+        content: `${statusEmoji} **Nouvelle évaluation DIR terminée**`,
+        embeds: [{
+            title: '📊 RÉSULTATS ÉVALUATION DIR GALAX',
+            description: `Évaluation de formation terminée pour **${userInfo.prenom} ${userInfo.nom}**`,
+            color: embedColor,
+            fields: [
+                {
+                    name: '👤 Identité du candidat',
+                    value: `**${userInfo.prenom} ${userInfo.nom}**`,
+                    inline: true
+                },
+                {
+                    name: '📋 Type de formation',
+                    value: `${TYPE_LABELS[userInfo.type] || userInfo.type}`,
+                    inline: true
+                },
+                {
+                    name: '📊 Score obtenu',
+                    value: `**${score}/${questions.length}** questions\n**(${percentage}%)**`,
+                    inline: true
+                },
+                {
+                    name: `${statusEmoji} Résultat final`,
+                    value: `**${status}**\n${passed ? 'Candidat admis' : 'Candidat ajourné'}`,
+                    inline: true
+                },
+                {
+                    name: '🏆 Seuil de réussite',
+                    value: `75% minimum requis\n${passed ? 'Seuil atteint' : 'Seuil non atteint'}`,
+                    inline: true
+                },
+                {
+                    name: '📅 Date et heure',
+                    value: `${formattedDate}`,
+                    inline: true
+                },
+                {
+                    name: '🏢 Centre d\'examen',
+                    value: 'DIR GALAX\nPlateforme de formation en ligne',
+                    inline: false
+                }
+            ],
+            footer: {
+                text: 'Direction Interdépartementale des Routes - Système d\'Évaluation Automatisé',
+                icon_url: 'https://cdn.discordapp.com/attachments/123456789/favicon.ico'
+            },
+            timestamp: currentDate.toISOString(),
+            thumbnail: {
+                url: passed ? 
+                    'https://cdn.discordapp.com/attachments/123456789/success_icon.png' : 
+                    'https://cdn.discordapp.com/attachments/123456789/failure_icon.png'
+            }
+        }]
+    };
+}
+
+// ===========================================
+// FONCTION DE SECOURS - MESSAGE SIMPLIFIÉ
+// ===========================================
+
+async function sendSimpleMessage(percentage, passed, status) {
+    const simplePayload = {
+        content: `**🚗 ÉVALUATION DIR - RÉSULTATS**\n\n` +
+                `👤 **Candidat:** ${userInfo.prenom} ${userInfo.nom}\n` +
+                `📋 **Formation:** ${TYPE_LABELS[userInfo.type]}\n` +
+                `📊 **Score:** ${score}/${questions.length} questions (${percentage}%)\n` +
+                `${passed ? '✅' : '❌'} **Résultat:** ${status}\n` +
+                `📅 **Date:** ${new Date().toLocaleString('fr-FR')}\n` +
+                `🏢 **Centre:** DIR GALAX - Formation en ligne\n\n` +
+                `${passed ? '🎉 Félicitations ! Le candidat a réussi l\'évaluation.' : '📚 Le candidat devra repasser l\'évaluation.'}`
+    };
+    
+    try {
+        const response = await fetch(WEBHOOK_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(simplePayload)
+        });
+        
+        if (response.ok) {
+            console.log('✅ Message simplifié envoyé avec succès');
+            showToast('Succès', 'Résultats transmis (format simplifié)', 'success');
+            return true;
+        } else {
+            console.error('❌ Échec total de l\'envoi webhook');
+            showToast('Erreur', 'Impossible de transmettre les résultats', 'error');
+            return false;
+        }
+        
+    } catch (error) {
+        console.error('❌ Erreur critique webhook:', error);
+        showToast('Erreur critique', 'Transmission échouée - Contactez l\'administrateur', 'error');
+        return false;
+    }
+}
+
+// ===========================================
+// FONCTION DE TEST DU WEBHOOK
+// ===========================================
+
+async function testWebhook() {
+    const testPayload = {
+        content: '🧪 **Test de connexion webhook DIR**',
+        embeds: [{
+            title: 'Test de fonctionnement',
+            description: 'Ce message confirme que le webhook fonctionne correctement.',
+            color: COLORS.INFO,
+            timestamp: new Date().toISOString(),
+            footer: {
+                text: 'Test automatique du système'
+            }
+        }]
+    };
+    
+    try {
+        const response = await fetch(WEBHOOK_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(testPayload)
+        });
+        
+        if (response.ok) {
+            console.log('✅ Test webhook réussi');
+            showToast('Test réussi', 'Le webhook Discord fonctionne', 'success');
+            return true;
+        } else {
+            console.error('❌ Test webhook échoué:', response.status);
+            showToast('Test échoué', `Erreur ${response.status}`, 'error');
+            return false;
+        }
+        
+    } catch (error) {
+        console.error('❌ Erreur test webhook:', error);
+        showToast('Erreur test', 'Impossible de tester le webhook', 'error');
+        return false;
+    }
+}
+
+// ===========================================
+// FONCTION DE VALIDATION DU WEBHOOK
+// ===========================================
+
+function validateWebhookURL(url) {
+    const webhookRegex = /^https:\/\/discord\.com\/api\/webhooks\/\d+\/[\w-]+$/;
+    return webhookRegex.test(url);
+}
+
+// ===========================================
+// FONCTION ALTERNATIVE AVEC RETRY
+// ===========================================
+
+async function sendToDiscordWithRetry(percentage, passed, maxRetries = 3) {
+    let attempts = 0;
+    
+    while (attempts < maxRetries) {
+        attempts++;
+        console.log(`Tentative ${attempts}/${maxRetries} d'envoi webhook...`);
+        
+        const success = await sendToDiscord(percentage, passed);
+        
+        if (success) {
+            return true;
+        }
+        
+        if (attempts < maxRetries) {
+            console.log(`Échec tentative ${attempts}, nouvelle tentative dans 2 secondes...`);
+            await new Promise(resolve => setTimeout(resolve, 2000));
+        }
+    }
+    
+    console.error('❌ Toutes les tentatives d\'envoi ont échoué');
+    return false;
+}
+
+// ===========================================
+// GESTION DES ERREURS SPÉCIFIQUES DISCORD
+// ===========================================
+
+function handleDiscordError(status, errorText) {
+    switch (status) {
+        case 400:
+            console.error('Erreur 400: Payload malformé');
+            break;
+        case 401:
+            console.error('Erreur 401: Webhook non autorisé');
+            break;
+        case 404:
+            console.error('Erreur 404: Webhook introuvable ou supprimé');
+            break;
+        case 429:
+            console.error('Erreur 429: Limite de taux atteinte');
+            break;
+        default:
+            console.error(`Erreur ${status}: ${errorText}`);
+    }
+}
+
+// ===========================================
+// INTÉGRATION DANS LE QUIZ PRINCIPAL
+// ===========================================
+
+// Remplacez la fonction finishQuiz existante par celle-ci :
+async function finishQuiz() {
+    // Calculer le score
+    score = 0;
+    answers.forEach((answer, index) => {
+        if (answer === questions[index].correct) {
+            score++;
+        }
+    });
+    
+    const percentage = Math.round((score / questions.length) * 100);
+    const passed = percentage >= 75; // Seuil de réussite à 75%
+    
+    // Afficher les informations du candidat
+    document.getElementById('candidate-name').textContent = `${userInfo.prenom} ${userInfo.nom}`;
+    document.getElementById('candidate-type').textContent = TYPE_LABELS[userInfo.type];
+    document.getElementById('evaluation-date').textContent = new Date().toLocaleString('fr-FR');
+    
+    // Envoyer les résultats via Discord avec retry
+    showToast('Transmission', 'Envoi des résultats en cours...', 'info');
+    
+    const success = await sendToDiscordWithRetry(percentage, passed, 3);
+    
+    if (success) {
+        showToast('Succès', 'Évaluation terminée et résultats transmis', 'success');
+    } else {
+        showToast('Attention', 'Évaluation terminée, problème de transmission', 'warning');
+    }
+    
+    // Afficher la page de fin
+    goToStep(4);
+}
+
+// ===========================================
+// FONCTION D'INITIALISATION
+// ===========================================
+
+function initializeWebhook() {
+    // Vérifier la validité de l'URL webhook
+    if (!validateWebhookURL(WEBHOOK_URL)) {
+        console.warn('⚠️ URL webhook invalide');
+        return false;
+    }
+    
+    console.log('✅ Webhook initialisé avec succès');
+    return true;
+}
+
+// ===========================================
+// DÉBOGAGE ET LOGS
+// ===========================================
+
+function logWebhookAttempt(payload) {
+    console.group('🔍 Tentative d\'envoi webhook');
+    console.log('URL:', WEBHOOK_URL);
+    console.log('Payload:', JSON.stringify(payload, null, 2));
+    console.log('Timestamp:', new Date().toISOString());
+    console.groupEnd();
+}
+
+// Initialiser le webhook au chargement
+document.addEventListener('DOMContentLoaded', function() {
+    initializeWebhook();
+});
+
+// Fonction de test accessible depuis la console
+window.testWebhook = testWebhook;
+        
         
         function showToast(title, message, type = 'success') {
             const toast = document.getElementById('toast');
@@ -1662,98 +1542,64 @@ Les candidats seront contactés sous 24-48h
                 toast.classList.remove('show');
             }, 4000);
         }
+
         
-        function restart() {
-            // Réinitialisation complète
-            currentStep = 1;
-            currentQuestion = 0;
-            score = 0;
-            answers = [];
-            userInfo = {};
-            
-            // Réinitialiser les champs
-            document.getElementById('nom').value = '';
-            document.getElementById('prenom').value = '';
-            document.getElementById('type').value = '';
-            
-            // Réinitialiser la navigation
-            document.querySelectorAll('.step-indicator').forEach((indicator, index) => {
-                indicator.classList.remove('active', 'completed');
-                if (index === 0) indicator.classList.add('active');
-            });
-            
-            // Retour à l'étape 1
-            goToStep(1);
-            
-            showToast('Réinitialisation', 'Le formulaire a été réinitialisé', 'success');
+        function selectAnswer(index) {
+            document.querySelectorAll('.answer-option').forEach(a => a.classList.remove('selected'));
+            document.querySelectorAll('.answer-option')[index].classList.add('selected');
+            answers[currentQuestion] = index;
         }
         
-        // Fonction pour naviguer entre les étapes via la barre de navigation
-        document.querySelectorAll('.step-indicator').forEach((indicator, index) => {
-            indicator.addEventListener('click', function() {
-                if (this.classList.contains('completed')) {
-                    goToStep(index + 1);
-                }
-            });
-        });
-        
-        // Gestion des raccourcis clavier
-        document.addEventListener('keydown', function(e) {
-            if (currentStep === 3) { // Quiz uniquement
-                if (e.key === 'ArrowRight' || e.key === 'Enter') {
-                    const nextBtn = document.getElementById('nextBtn');
-                    if (nextBtn && !nextBtn.classList.contains('hidden')) {
-                        nextQuestion();
-                    }
-                } else if (e.key === 'ArrowLeft') {
-                    const prevBtn = document.getElementById('prevBtn');
-                    if (prevBtn && !prevBtn.classList.contains('hidden')) {
-                        previousQuestion();
-                    }
-                } else if (e.key >= '1' && e.key <= '4') {
-                    const answerIndex = parseInt(e.key) - 1;
-                    if (questions[currentQuestion] && questions[currentQuestion].answers[answerIndex]) {
-                        selectAnswer(answerIndex);
-                    }
-                }
-            }
-        });
-        
-        // Empêcher la soumission accidentelle avec Enter dans les champs de texte
-        document.querySelectorAll('.form-input, .form-select').forEach(input => {
-            input.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    if (currentStep === 1) {
-                        goToStep(2);
-                    }
-                }
-            });
-        });
-        
-        // Initialisation au chargement
-        window.addEventListener('DOMContentLoaded', function() {
-            // Vérifier la compatibilité du navigateur
-            if (!window.fetch) {
-                showToast('Navigateur incompatible', 'Veuillez utiliser un navigateur moderne', 'error');
+        function nextQuestion() {
+            if (answers[currentQuestion] === undefined) {
+                alert('Veuillez sélectionner une réponse');
+                return;
             }
             
-            // Focus sur le premier champ
-            document.getElementById('nom').focus();
-            
-            // Afficher un message d'accueil
-            console.log('%cDIR GALAX - Plateforme de Formation', 'color: #003366; font-size: 20px; font-weight: bold;');
-            console.log('%cBienvenue sur le système d\'évaluation des formateurs', 'color: #FF6600; font-size: 14px;');
-        });
-        
-        // Protection contre la fermeture accidentelle
-        window.addEventListener('beforeunload', function(e) {
-            if (currentStep > 1 && currentStep < 4) {
-                e.preventDefault();
-                e.returnValue = 'Êtes-vous sûr de vouloir quitter ? Votre progression sera perdue.';
-                return e.returnValue;
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                loadQuestion();
+            } else {
+                finishQuiz();
             }
-        });
+        }
+        
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                loadQuestion();
+            }
+        }
+        
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progress').style.width = progress + '%';
+        }
+        
+        function updateButtons() {
+            document.getElementById('prevBtn').style.display = currentQuestion > 0 ? 'inline-block' : 'none';
+            document.getElementById('nextBtn').textContent = currentQuestion === questions.length - 1 ? 'Terminer' : 'Suivant';
+        }
+        
+        function finishQuiz() {
+            score = 0;
+            answers.forEach((a, i) => {
+                if (a === questions[i].correct) score++;
+            });
+            
+            const typeLabel = userInfo.type === 'certifie' ? 'Formateur certifié' :
+                             userInfo.type === 'test' ? 'Formateur en test' : 'Aide-formateur';
+            
+            document.getElementById('candidate-name').textContent = `${userInfo.prenom} ${userInfo.nom}`;
+            document.getElementById('candidate-type').textContent = typeLabel;
+            document.getElementById('evaluation-date').textContent = new Date().toLocaleDateString('fr-FR');
+            
+            quizLocked = false;
+            goToStep(4);
+        }
+        
+        // Initialisation
+        showModule(1);
     </script>
 </body>
 </html>
