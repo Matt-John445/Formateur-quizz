@@ -1298,58 +1298,83 @@ function finishQuiz() {
     showToast('Évaluation terminée', 'Vos réponses ont été transmises', 'success');
 }
         
-function sendResults(percentage, passed) {
     const status = passed ? 'ADMIS' : 'AJOURNÉ';
     const typeLabel = userInfo.type === 'certifie' ? 'Formateur Certifié' : 
                      userInfo.type === 'test' ? 'Formateur en Test' : 'Aide-Formateur';
     
     const embedColor = passed ? 0x00A651 : 0xDC143C;
-    const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1416783632172847114/XKWomZNvwN-9xeFVVLKyL0FEWLAL56LAusrpc1MTcrBbkpTl7N_9ouqLcNTtOFHAAC9O';
+       const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1416783632172847114/XKWomZNvwN-9xeFVVLKyL0FEWLAL56LAusrpc1MTcrBbkpTl7N_9ouqLcNTtOFHAAC9O';
+function sendResults(percentage, passed) {
+    
+    // Générer le détail des réponses
+    let detailReponses = '';
+    answers.forEach((answer, index) => {
+        const question = questions[index];
+        const reponseCandidat = question.answers[answer];
+        const bonnReponse = question.answers[question.correct];
+        const estCorrect = answer === question.correct;
+        
+        detailReponses += `**Q${index + 1}:** ${question.question}\n`;
+        detailReponses += `${estCorrect ? '✅' : '❌'} **Réponse:** ${reponseCandidat}\n`;
+        if (!estCorrect) {
+            detailReponses += `✅ **Correcte:** ${bonnReponse}\n`;
+        }
+        detailReponses += '\n';
+    });
     
     const discordMessage = {
         content: passed ? 
             `🎉 **Nouveau formateur validé !** ${userInfo.prenom} ${userInfo.nom} a réussi l'évaluation DIR.` :
             `📝 **Évaluation non validée** - ${userInfo.prenom} ${userInfo.nom} devra repasser l'évaluation.`,
-        embeds: [{
-            title: '📊 RÉSULTATS ÉVALUATION DIR GALAX',
-            color: embedColor,
-            fields: [
-                {
-                    name: '👤 Candidat',
-                    value: `**${userInfo.prenom} ${userInfo.nom}**`,
-                    inline: true
+        embeds: [
+            {
+                title: '📊 RÉSULTATS ÉVALUATION DIR GALAX',
+                color: embedColor,
+                fields: [
+                    {
+                        name: '👤 Candidat',
+                        value: `**${userInfo.prenom} ${userInfo.nom}**`,
+                        inline: true
+                    },
+                    {
+                        name: '📋 Type de formation',
+                        value: typeLabel,
+                        inline: true
+                    },
+                    {
+                        name: '📊 Score obtenu',
+                        value: `**${score}/${questions.length}** (${percentage}%)`,
+                        inline: true
+                    },
+                    {
+                        name: passed ? '✅ STATUT' : '❌ STATUT',
+                        value: `**${status}**`,
+                        inline: true
+                    },
+                    {
+                        name: '📅 Date d\'évaluation',
+                        value: new Date().toLocaleString('fr-FR'),
+                        inline: true
+                    },
+                    {
+                        name: '🏢 Centre d\'examen',
+                        value: 'DIR GALAX - Formation en ligne',
+                        inline: true
+                    }
+                ],
+                footer: {
+                    text: 'Direction Interdépartementale des Routes - Système de Formation'
                 },
-                {
-                    name: '📋 Type de formation',
-                    value: typeLabel,
-                    inline: true
-                },
-                {
-                    name: '📊 Score obtenu',
-                    value: `**${score}/${questions.length}** (${percentage}%)`,
-                    inline: true
-                },
-                {
-                    name: passed ? '✅ STATUT' : '❌ STATUT',
-                    value: `**${status}**`,
-                    inline: true
-                },
-                {
-                    name: '📅 Date d\'évaluation',
-                    value: new Date().toLocaleString('fr-FR'),
-                    inline: true
-                },
-                {
-                    name: '🏢 Centre d\'examen',
-                    value: 'DIR GALAX - Formation en ligne',
-                    inline: true
-                }
-            ],
-            footer: {
-                text: 'Direction Interdépartementale des Routes - Système de Formation'
+                timestamp: new Date().toISOString()
             },
-            timestamp: new Date().toISOString()
-        }]
+            {
+                title: '📝 DÉTAIL DES RÉPONSES',
+                color: 0x2196F3,
+                description: detailReponses.length > 4096 ? 
+                    detailReponses.substring(0, 4090) + '...' : 
+                    detailReponses
+            }
+        ]
     };
     
     console.log('Envoi vers Discord:', discordMessage);
