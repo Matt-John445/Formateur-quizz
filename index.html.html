@@ -1118,6 +1118,7 @@ Les candidats seront contactés sous 24-48h
 
         // Fonctions principales
 function goToStep(stepNumber) {
+    // Validation pour l'étape 2
     if (stepNumber === 2) {
         const nom = document.getElementById('nom').value.trim();
         const prenom = document.getElementById('prenom').value.trim();
@@ -1129,29 +1130,43 @@ function goToStep(stepNumber) {
         }
         
         userInfo = { nom, prenom, type };
-        updateSidebar(2);
     }
     
+    // Initialisation pour l'étape 3 (Quiz)
     if (stepNumber === 3) {
         currentQuestion = 0;
         answers = [];
         score = 0;
         loadQuestion();
-        updateSidebar(3);
     }
     
-    // Affichage de l'étape
+    // Masquer toutes les étapes
     document.querySelectorAll('.step-content').forEach(step => {
         step.classList.remove('active');
     });
     
+    // Afficher l'étape cible
     const targetStep = document.getElementById(`step-${stepNumber}`);
     if (targetStep) {
         targetStep.classList.add('active');
     }
     
+    // Mettre à jour la sidebar
+    document.querySelectorAll('.step-list li').forEach((li, index) => {
+        li.classList.remove('active', 'completed', 'locked');
+        
+        if (index + 1 === stepNumber) {
+            li.classList.add('active');
+        } else if (index + 1 < stepNumber) {
+            li.classList.add('completed');
+        } else {
+            li.classList.add('locked');
+        }
+    });
+    
     currentStep = stepNumber;
     
+    // Charger le premier module si on va à l'étape 2
     if (stepNumber === 2) {
         showModule(1);
     }
