@@ -382,6 +382,48 @@
             color: #000091;
         }
         
+        /* Toast notifications */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 16px 20px;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 10000;
+            max-width: 350px;
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+        }
+        
+        .toast.error {
+            background: #f44336;
+        }
+        
+        .toast.warning {
+            background: #ff9800;
+        }
+        
+        .toast.info {
+            background: #2196F3;
+        }
+        
+        .toast-title {
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        
+        .toast-message {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
         /* Footer */
         .footer {
             background: #1e1e1e;
@@ -438,6 +480,12 @@
     </style>
 </head>
 <body>
+    <!-- Toast pour notifications -->
+    <div class="toast" id="toast">
+        <div class="toast-title" id="toast-title"></div>
+        <div class="toast-message" id="toast-message"></div>
+    </div>
+
     <!-- Header gouvernemental -->
     <header class="gov-header">
         <div class="container">
@@ -613,6 +661,9 @@
         let userInfo = {};
         let quizLocked = false;
         
+        // Configuration du webhook Discord - REMPLACEZ PAR VOTRE URL
+        const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1416783632172847114/XKWomZNvwN-9xeFVVLKyL0FEWLAL56LAusrpc1MTcrBbkpTl7N_9ouqLcNTtOFHAAC9O';
+        
         const questions = [
             {
                 question: "Combien de types de formateurs sont définis dans le système DIR ?",
@@ -764,7 +815,7 @@ body{margin:0;padding:25px;font-family:'Segoe UI',sans-serif;background:#f7f7f7}
 .timeline::before{content:'';position:absolute;left:50px;top:50px;bottom:50px;width:3px;background:#FF6600}
 .timeline-item{display:flex;align-items:flex-start;margin:25px 0;position:relative}
 .timeline-icon{width:40px;height:40px;background:#003366;color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;z-index:1;border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.2)}
-.timeline-content{margin-left:25px;flex:1;background:#F7F7F7;padding:20px;border-left:3px solid #FF6600}
+        .timeline-content{margin-left:25px;flex:1;background:#F7F7F7;padding:20px;border-left:3px solid #FF6600}
 .timeline-title{color:#003366;font-weight:700;font-size:18px;margin-bottom:8px}
 .timeline-desc{color:#4A4A4A;line-height:1.6}
 .timeline-time{background:#FFB000;color:#003366;padding:3px 10px;display:inline-block;font-weight:600;font-size:14px;margin-top:10px}
@@ -1064,82 +1115,134 @@ Les candidats seront contactés sous 24-48h
 </div>
 </body></html>`
         };
+
+        // Fonctions principales
+function goToStep(stepNumber) {
+    if (stepNumber === 2) {
+        const nom = document.getElementById('nom').value.trim();
+        const prenom = document.getElementById('prenom').value.trim();
+        const type = document.getElementById('type').value;
         
-        function goToStep(step) {
-            if (quizLocked && step < 3) return;
-            
-            if (step === 2) {
-                const nom = document.getElementById('nom').value;
-                const prenom = document.getElementById('prenom').value;
-                const type = document.getElementById('type').value;
-                
-                if (!nom || !prenom || !type) {
-                    alert('Veuillez remplir tous les champs');
-                    return;
-                }
-                
-                userInfo = { nom, prenom, type };
-            }
-            
-            if (step === 3) {
-                quizLocked = true;
-                currentQuestion = 0;
-                answers = [];
-                loadQuestion();
-                updateSidebar();
-            }
-            
-            document.querySelectorAll('.step-content').forEach(s => s.classList.remove('active'));
-            document.getElementById('step-' + step).classList.add('active');
-            
-            updateSidebar();
+        if (!nom || !prenom || !type) {
+            showToast('Champs obligatoires', 'Veuillez remplir tous les champs', 'error');
+            return;
         }
         
-        function updateSidebar() {
-            const items = document.querySelectorAll('.step-list li');
-            items.forEach((item, index) => {
-                item.classList.remove('active');
-                if (quizLocked && index < 2) {
-                    item.classList.add('locked');
-                }
-            });
-            
-            if (document.getElementById('step-1').classList.contains('active')) items[0].classList.add('active');
-            if (document.getElementById('step-2').classList.contains('active')) items[1].classList.add('active');
-            if (document.getElementById('step-3').classList.contains('active')) items[2].classList.add('active');
-            if (document.getElementById('step-4').classList.contains('active')) items[3].classList.add('active');
-        }
+        userInfo = { nom, prenom, type };
+        updateSidebar(2);
+    }
+    
+    if (stepNumber === 3) {
+        currentQuestion = 0;
+        answers = [];
+        score = 0;
+        loadQuestion();
+        updateSidebar(3);
+    }
+    
+    // Affichage de l'étape
+    document.querySelectorAll('.step-content').forEach(step => {
+        step.classList.remove('active');
+    });
+    
+    const targetStep = document.getElementById(`step-${stepNumber}`);
+    if (targetStep) {
+        targetStep.classList.add('active');
+    }
+    
+    currentStep = stepNumber;
+    
+    if (stepNumber === 2) {
+        showModule(1);
+    }
+}
         
         function showModule(num) {
-            document.querySelectorAll('.module-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.module-btn')[num-1].classList.add('active');
-            document.getElementById('module-frame').srcdoc = modules[num];
+            document.querySelectorAll('.module-btn').forEach((btn, index) => {
+                btn.classList.toggle('active', index + 1 === num);
+            });
+            
+            const frame = document.getElementById('module-frame');
+            if (frame && modules[num]) {
+                frame.srcdoc = modules[num];
+            }
         }
         
         function loadQuestion() {
-            const q = questions[currentQuestion];
             const container = document.getElementById('question-container');
+            const q = questions[currentQuestion];
             
             container.innerHTML = `
                 <div class="question-card">
-                    <div class="question-text">Question ${currentQuestion + 1}/${questions.length}: ${q.question}</div>
-                    ${q.answers.map((a, i) => `
-                        <div class="answer-option" onclick="selectAnswer(${i})">
-                            <div class="radio-circle"></div>
-                            <span>${a}</span>
-                        </div>
-                    `).join('')}
+                    <div class="question-header">
+                        <div class="question-number">${currentQuestion + 1}</div>
+                        <div style="color: #4A4A4A; font-size: 14px;">Question ${currentQuestion + 1} sur ${questions.length}</div>
+                    </div>
+                    <div class="question-text">${q.question}</div>
+                    <div class="answers-grid">
+                        ${q.answers.map((answer, index) => `
+                            <div class="answer-option" onclick="selectAnswer(${index})">
+                                <div class="radio-circle"></div>
+                                <span>${answer}</span>
+                            </div>
+                        `).join('')}
+                    </div>
                 </div>
             `;
             
             if (answers[currentQuestion] !== undefined) {
-                document.querySelectorAll('.answer-option')[answers[currentQuestion]].classList.add('selected');
+                const selected = container.querySelectorAll('.answer-option')[answers[currentQuestion]];
+                if (selected) selected.classList.add('selected');
             }
             
             updateProgress();
             updateButtons();
         }
-        function finishQuiz() {
+        
+        function selectAnswer(index) {
+            document.querySelectorAll('.answer-option').forEach(a => a.classList.remove('selected'));
+            document.querySelectorAll('.answer-option')[index].classList.add('selected');
+            answers[currentQuestion] = index;
+        }
+        
+        function nextQuestion() {
+            if (answers[currentQuestion] === undefined) {
+                showToast('Réponse requise', 'Veuillez sélectionner une réponse', 'warning');
+                return;
+            }
+            
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                loadQuestion();
+            } else {
+                finishQuiz();
+            }
+        }
+        
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                loadQuestion();
+            }
+        }
+        
+        function updateProgress() {
+            const percentage = Math.round(((currentQuestion + 1) / questions.length) * 100);
+            const progress = document.getElementById('progress');
+            const progressText = document.getElementById('progress-text');
+            
+            progress.style.width = percentage + '%';
+            progress.textContent = percentage + '%';
+            progressText.textContent = `Question ${currentQuestion + 1} sur ${questions.length}`;
+        }
+        
+        function updateButtons() {
+            document.getElementById('prevBtn').classList.toggle('hidden', currentQuestion === 0);
+            document.getElementById('nextBtn').textContent = 
+                currentQuestion === questions.length - 1 ? 'TERMINER L\'ÉVALUATION' : 'QUESTION SUIVANTE →';
+        }
+        
+function finishQuiz() {
     // Calculer le score en interne sans l'afficher
     score = 0;
     answers.forEach((answer, index) => {
@@ -1153,376 +1256,129 @@ Les candidats seront contactés sous 24-48h
     const typeLabel = userInfo.type === 'certifie' ? 'Formateur Certifié' : 
                      userInfo.type === 'test' ? 'Formateur en Test' : 'Aide-Formateur';
     
-    document.getElementById('candidate-name').textContent = `${userInfo.prenom} ${userInfo.nom}`;
-    document.getElementById('candidate-type').textContent = typeLabel;
-    document.getElementById('evaluation-date').textContent = new Date().toLocaleString('fr-FR');
+    // Mettre à jour les informations candidat
+    const candidateName = document.getElementById('candidate-name');
+    const candidateType = document.getElementById('candidate-type');
+    const evaluationDate = document.getElementById('evaluation-date');
     
-    // Envoi Discord au responsable (avec le score, mais pas visible pour le candidat)
+    if (candidateName) candidateName.textContent = `${userInfo.prenom} ${userInfo.nom}`;
+    if (candidateType) candidateType.textContent = typeLabel;
+    if (evaluationDate) evaluationDate.textContent = new Date().toLocaleString('fr-FR');
+    
+    // Navigation vers l'étape 4 - CORRECTION ICI
+    currentStep = 4;
+    
+    // Masquer toutes les étapes
+    document.querySelectorAll('.step-content').forEach(step => {
+        step.classList.remove('active');
+    });
+    
+    // Afficher l'étape 4
+    const step4 = document.getElementById('step-4');
+    if (step4) {
+        step4.classList.add('active');
+    }
+    
+    // Mettre à jour la sidebar
+    document.querySelectorAll('.step-list li').forEach((li, index) => {
+        li.classList.remove('active', 'completed', 'locked');
+        
+        if (index + 1 === 4) {
+            li.classList.add('active');
+        } else if (index + 1 < 4) {
+            li.classList.add('completed');
+        } else {
+            li.classList.add('locked');
+        }
+    });
+    
+    // Envoi Discord au responsable
     sendResults(percentage, passed);
-    
-    // Affichage de la page de confirmation (sans score)
-    goToStep(4);
     
     showToast('Évaluation terminée', 'Vos réponses ont été transmises', 'success');
 }
         
-     // ===========================================
-// CONFIGURATION DU WEBHOOK DISCORD
-// ===========================================
-
-// Remplacez par votre URL de webhook Discord
-const WEBHOOK_URL = 'https://discord.com/api/webhooks/1416783632172847114/XKWomZNvwN-9xeFVVLKyL0FEWLAL56LAusrpc1MTcrBbkpTl7N_9ouqLcNTtOFHAAC9O';
-
-// Configuration des couleurs pour les embeds
-const COLORS = {
-    SUCCESS: 0x00FF00,  // Vert pour réussite
-    FAILURE: 0xFF0000,  // Rouge pour échec
-    INFO: 0x0099FF,     // Bleu pour info
-    WARNING: 0xFFAA00   // Orange pour avertissement
-};
-
-// Labels pour les types de formation
-const TYPE_LABELS = {
-    'certifie': 'Formateur Certifié',
-    'test': 'Formateur en Test',
-    'aide': 'Aide-Formateur'
-};
-
-// ===========================================
-// FONCTION PRINCIPALE D'ENVOI DISCORD
-// ===========================================
-
-async function sendToDiscord(percentage, passed) {
+function sendResults(percentage, passed) {
     const status = passed ? 'ADMIS' : 'AJOURNÉ';
-    const statusEmoji = passed ? '✅' : '❌';
-    const embedColor = passed ? COLORS.SUCCESS : COLORS.FAILURE;
+    const typeLabel = userInfo.type === 'certifie' ? 'Formateur Certifié' : 
+                     userInfo.type === 'test' ? 'Formateur en Test' : 'Aide-Formateur';
     
-    // Construction du payload Discord
-    const payload = createDiscordPayload(percentage, passed, status, statusEmoji, embedColor);
+    const embedColor = passed ? 0x00A651 : 0xDC143C;
+    const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1416783632172847114/XKWomZNvwN-9xeFVVLKyL0FEWLAL56LAusrpc1MTcrBbkpTl7N_9ouqLcNTtOFHAAC9O';
     
-    try {
-        console.log('Envoi des données vers Discord...', payload);
-        
-        const response = await fetch(WEBHOOK_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify(payload)
-        });
-        
-        // Vérification de la réponse
-        if (response.ok) {
-            console.log('✅ Webhook envoyé avec succès');
-            showToast('Succès', 'Résultats transmis à Discord', 'success');
-            return true;
-        } else {
-            const errorText = await response.text();
-            console.error('❌ Erreur webhook:', response.status, response.statusText);
-            console.error('Détails de l\'erreur:', errorText);
-            
-            // Tentative avec un payload simplifié en cas d'échec
-            return await sendSimpleMessage(percentage, passed, status);
-        }
-        
-    } catch (error) {
-        console.error('❌ Erreur réseau:', error);
-        
-        // Tentative avec un payload simplifié en cas d'échec réseau
-        return await sendSimpleMessage(percentage, passed, status);
-    }
-}
-
-// ===========================================
-// CRÉATION DU PAYLOAD DISCORD PRINCIPAL
-// ===========================================
-
-function createDiscordPayload(percentage, passed, status, statusEmoji, embedColor) {
-    const currentDate = new Date();
-    const formattedDate = currentDate.toLocaleString('fr-FR', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
-    });
-    
-    return {
-        content: `${statusEmoji} **Nouvelle évaluation DIR terminée**`,
+    const discordMessage = {
+        content: passed ? 
+            `🎉 **Nouveau formateur validé !** ${userInfo.prenom} ${userInfo.nom} a réussi l'évaluation DIR.` :
+            `📝 **Évaluation non validée** - ${userInfo.prenom} ${userInfo.nom} devra repasser l'évaluation.`,
         embeds: [{
             title: '📊 RÉSULTATS ÉVALUATION DIR GALAX',
-            description: `Évaluation de formation terminée pour **${userInfo.prenom} ${userInfo.nom}**`,
             color: embedColor,
             fields: [
                 {
-                    name: '👤 Identité du candidat',
+                    name: '👤 Candidat',
                     value: `**${userInfo.prenom} ${userInfo.nom}**`,
                     inline: true
                 },
                 {
                     name: '📋 Type de formation',
-                    value: `${TYPE_LABELS[userInfo.type] || userInfo.type}`,
+                    value: typeLabel,
                     inline: true
                 },
                 {
                     name: '📊 Score obtenu',
-                    value: `**${score}/${questions.length}** questions\n**(${percentage}%)**`,
+                    value: `**${score}/${questions.length}** (${percentage}%)`,
                     inline: true
                 },
                 {
-                    name: `${statusEmoji} Résultat final`,
-                    value: `**${status}**\n${passed ? 'Candidat admis' : 'Candidat ajourné'}`,
+                    name: passed ? '✅ STATUT' : '❌ STATUT',
+                    value: `**${status}**`,
                     inline: true
                 },
                 {
-                    name: '🏆 Seuil de réussite',
-                    value: `75% minimum requis\n${passed ? 'Seuil atteint' : 'Seuil non atteint'}`,
-                    inline: true
-                },
-                {
-                    name: '📅 Date et heure',
-                    value: `${formattedDate}`,
+                    name: '📅 Date d\'évaluation',
+                    value: new Date().toLocaleString('fr-FR'),
                     inline: true
                 },
                 {
                     name: '🏢 Centre d\'examen',
-                    value: 'DIR GALAX\nPlateforme de formation en ligne',
-                    inline: false
+                    value: 'DIR GALAX - Formation en ligne',
+                    inline: true
                 }
             ],
             footer: {
-                text: 'Direction Interdépartementale des Routes - Système d\'Évaluation Automatisé',
-                icon_url: 'https://cdn.discordapp.com/attachments/123456789/favicon.ico'
+                text: 'Direction Interdépartementale des Routes - Système de Formation'
             },
-            timestamp: currentDate.toISOString(),
-            thumbnail: {
-                url: passed ? 
-                    'https://cdn.discordapp.com/attachments/123456789/success_icon.png' : 
-                    'https://cdn.discordapp.com/attachments/123456789/failure_icon.png'
-            }
-        }]
-    };
-}
-
-// ===========================================
-// FONCTION DE SECOURS - MESSAGE SIMPLIFIÉ
-// ===========================================
-
-async function sendSimpleMessage(percentage, passed, status) {
-    const simplePayload = {
-        content: `**🚗 ÉVALUATION DIR - RÉSULTATS**\n\n` +
-                `👤 **Candidat:** ${userInfo.prenom} ${userInfo.nom}\n` +
-                `📋 **Formation:** ${TYPE_LABELS[userInfo.type]}\n` +
-                `📊 **Score:** ${score}/${questions.length} questions (${percentage}%)\n` +
-                `${passed ? '✅' : '❌'} **Résultat:** ${status}\n` +
-                `📅 **Date:** ${new Date().toLocaleString('fr-FR')}\n` +
-                `🏢 **Centre:** DIR GALAX - Formation en ligne\n\n` +
-                `${passed ? '🎉 Félicitations ! Le candidat a réussi l\'évaluation.' : '📚 Le candidat devra repasser l\'évaluation.'}`
-    };
-    
-    try {
-        const response = await fetch(WEBHOOK_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(simplePayload)
-        });
-        
-        if (response.ok) {
-            console.log('✅ Message simplifié envoyé avec succès');
-            showToast('Succès', 'Résultats transmis (format simplifié)', 'success');
-            return true;
-        } else {
-            console.error('❌ Échec total de l\'envoi webhook');
-            showToast('Erreur', 'Impossible de transmettre les résultats', 'error');
-            return false;
-        }
-        
-    } catch (error) {
-        console.error('❌ Erreur critique webhook:', error);
-        showToast('Erreur critique', 'Transmission échouée - Contactez l\'administrateur', 'error');
-        return false;
-    }
-}
-
-// ===========================================
-// FONCTION DE TEST DU WEBHOOK
-// ===========================================
-
-async function testWebhook() {
-    const testPayload = {
-        content: '🧪 **Test de connexion webhook DIR**',
-        embeds: [{
-            title: 'Test de fonctionnement',
-            description: 'Ce message confirme que le webhook fonctionne correctement.',
-            color: COLORS.INFO,
-            timestamp: new Date().toISOString(),
-            footer: {
-                text: 'Test automatique du système'
-            }
+            timestamp: new Date().toISOString()
         }]
     };
     
-    try {
-        const response = await fetch(WEBHOOK_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(testPayload)
-        });
-        
+    console.log('Envoi vers Discord:', discordMessage);
+    
+    // Envoi vers Discord
+    fetch(DISCORD_WEBHOOK_URL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(discordMessage)
+    })
+    .then(response => {
+        console.log('Statut de la réponse:', response.status);
         if (response.ok) {
-            console.log('✅ Test webhook réussi');
-            showToast('Test réussi', 'Le webhook Discord fonctionne', 'success');
-            return true;
+            console.log('Résultats transmis avec succès');
+            showToast('Transmission réussie', 'Vos résultats ont été envoyés', 'success');
         } else {
-            console.error('❌ Test webhook échoué:', response.status);
-            showToast('Test échoué', `Erreur ${response.status}`, 'error');
-            return false;
+            return response.text().then(text => {
+                console.error('Erreur Discord:', response.status, text);
+                showToast('Erreur de transmission', `Code ${response.status}`, 'error');
+            });
         }
-        
-    } catch (error) {
-        console.error('❌ Erreur test webhook:', error);
-        showToast('Erreur test', 'Impossible de tester le webhook', 'error');
-        return false;
-    }
-}
-
-// ===========================================
-// FONCTION DE VALIDATION DU WEBHOOK
-// ===========================================
-
-function validateWebhookURL(url) {
-    const webhookRegex = /^https:\/\/discord\.com\/api\/webhooks\/\d+\/[\w-]+$/;
-    return webhookRegex.test(url);
-}
-
-// ===========================================
-// FONCTION ALTERNATIVE AVEC RETRY
-// ===========================================
-
-async function sendToDiscordWithRetry(percentage, passed, maxRetries = 3) {
-    let attempts = 0;
-    
-    while (attempts < maxRetries) {
-        attempts++;
-        console.log(`Tentative ${attempts}/${maxRetries} d'envoi webhook...`);
-        
-        const success = await sendToDiscord(percentage, passed);
-        
-        if (success) {
-            return true;
-        }
-        
-        if (attempts < maxRetries) {
-            console.log(`Échec tentative ${attempts}, nouvelle tentative dans 2 secondes...`);
-            await new Promise(resolve => setTimeout(resolve, 2000));
-        }
-    }
-    
-    console.error('❌ Toutes les tentatives d\'envoi ont échoué');
-    return false;
-}
-
-// ===========================================
-// GESTION DES ERREURS SPÉCIFIQUES DISCORD
-// ===========================================
-
-function handleDiscordError(status, errorText) {
-    switch (status) {
-        case 400:
-            console.error('Erreur 400: Payload malformé');
-            break;
-        case 401:
-            console.error('Erreur 401: Webhook non autorisé');
-            break;
-        case 404:
-            console.error('Erreur 404: Webhook introuvable ou supprimé');
-            break;
-        case 429:
-            console.error('Erreur 429: Limite de taux atteinte');
-            break;
-        default:
-            console.error(`Erreur ${status}: ${errorText}`);
-    }
-}
-
-// ===========================================
-// INTÉGRATION DANS LE QUIZ PRINCIPAL
-// ===========================================
-
-// Remplacez la fonction finishQuiz existante par celle-ci :
-async function finishQuiz() {
-    // Calculer le score
-    score = 0;
-    answers.forEach((answer, index) => {
-        if (answer === questions[index].correct) {
-            score++;
-        }
+    })
+    .catch(error => {
+        console.error('Erreur réseau:', error);
+        showToast('Erreur réseau', 'Vérifiez votre connexion', 'error');
     });
-    
-    const percentage = Math.round((score / questions.length) * 100);
-    const passed = percentage >= 75; // Seuil de réussite à 75%
-    
-    // Afficher les informations du candidat
-    document.getElementById('candidate-name').textContent = `${userInfo.prenom} ${userInfo.nom}`;
-    document.getElementById('candidate-type').textContent = TYPE_LABELS[userInfo.type];
-    document.getElementById('evaluation-date').textContent = new Date().toLocaleString('fr-FR');
-    
-    // Envoyer les résultats via Discord avec retry
-    showToast('Transmission', 'Envoi des résultats en cours...', 'info');
-    
-    const success = await sendToDiscordWithRetry(percentage, passed, 3);
-    
-    if (success) {
-        showToast('Succès', 'Évaluation terminée et résultats transmis', 'success');
-    } else {
-        showToast('Attention', 'Évaluation terminée, problème de transmission', 'warning');
-    }
-    
-    // Afficher la page de fin
-    goToStep(4);
 }
-
-// ===========================================
-// FONCTION D'INITIALISATION
-// ===========================================
-
-function initializeWebhook() {
-    // Vérifier la validité de l'URL webhook
-    if (!validateWebhookURL(WEBHOOK_URL)) {
-        console.warn('⚠️ URL webhook invalide');
-        return false;
-    }
-    
-    console.log('✅ Webhook initialisé avec succès');
-    return true;
-}
-
-// ===========================================
-// DÉBOGAGE ET LOGS
-// ===========================================
-
-function logWebhookAttempt(payload) {
-    console.group('🔍 Tentative d\'envoi webhook');
-    console.log('URL:', WEBHOOK_URL);
-    console.log('Payload:', JSON.stringify(payload, null, 2));
-    console.log('Timestamp:', new Date().toISOString());
-    console.groupEnd();
-}
-
-// Initialiser le webhook au chargement
-document.addEventListener('DOMContentLoaded', function() {
-    initializeWebhook();
-});
-
-// Fonction de test accessible depuis la console
-window.testWebhook = testWebhook;
-        
         
         function showToast(title, message, type = 'success') {
             const toast = document.getElementById('toast');
@@ -1543,64 +1399,134 @@ window.testWebhook = testWebhook;
             }, 4000);
         }
 
+        function updateSidebar(activeStep) {
+    document.querySelectorAll('.step-list li').forEach((li, index) => {
+        li.classList.remove('active', 'completed', 'locked');
         
-        function selectAnswer(index) {
-            document.querySelectorAll('.answer-option').forEach(a => a.classList.remove('selected'));
-            document.querySelectorAll('.answer-option')[index].classList.add('selected');
-            answers[currentQuestion] = index;
+        if (index + 1 === activeStep) {
+            li.classList.add('active');
+        } else if (index + 1 < activeStep) {
+            li.classList.add('completed');
+        } else {
+            li.classList.add('locked');
         }
+    });
+}
+
+function updateProgress() {
+    const percentage = Math.round(((currentQuestion + 1) / questions.length) * 100);
+    const progress = document.getElementById('progress');
+    
+    if (progress) {
+        progress.style.width = percentage + '%';
+    }
+}
+
+function updateButtons() {
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    
+    if (prevBtn) {
+        prevBtn.style.display = currentQuestion === 0 ? 'none' : 'inline-block';
+    }
+    
+    if (nextBtn) {
+        nextBtn.textContent = currentQuestion === questions.length - 1 ? 
+            'TERMINER L\'ÉVALUATION' : 'QUESTION SUIVANTE →';
+    }
+}
         
-        function nextQuestion() {
-            if (answers[currentQuestion] === undefined) {
-                alert('Veuillez sélectionner une réponse');
-                return;
-            }
-            
-            if (currentQuestion < questions.length - 1) {
-                currentQuestion++;
-                loadQuestion();
-            } else {
-                finishQuiz();
-            }
-        }
-        
-        function previousQuestion() {
-            if (currentQuestion > 0) {
-                currentQuestion--;
-                loadQuestion();
-            }
-        }
-        
-        function updateProgress() {
-            const progress = ((currentQuestion + 1) / questions.length) * 100;
-            document.getElementById('progress').style.width = progress + '%';
-        }
-        
-        function updateButtons() {
-            document.getElementById('prevBtn').style.display = currentQuestion > 0 ? 'inline-block' : 'none';
-            document.getElementById('nextBtn').textContent = currentQuestion === questions.length - 1 ? 'Terminer' : 'Suivant';
-        }
-        
-        function finishQuiz() {
+        function restart() {
+            // Réinitialisation complète
+            currentStep = 1;
+            currentQuestion = 0;
             score = 0;
-            answers.forEach((a, i) => {
-                if (a === questions[i].correct) score++;
+            answers = [];
+            userInfo = {};
+            
+            // Réinitialiser les champs
+            document.getElementById('nom').value = '';
+            document.getElementById('prenom').value = '';
+            document.getElementById('type').value = '';
+            
+            // Réinitialiser la navigation
+            document.querySelectorAll('.step-indicator').forEach((indicator, index) => {
+                indicator.classList.remove('active', 'completed');
+                if (index === 0) indicator.classList.add('active');
             });
             
-            const typeLabel = userInfo.type === 'certifie' ? 'Formateur certifié' :
-                             userInfo.type === 'test' ? 'Formateur en test' : 'Aide-formateur';
+            // Retour à l'étape 1
+            goToStep(1);
             
-            document.getElementById('candidate-name').textContent = `${userInfo.prenom} ${userInfo.nom}`;
-            document.getElementById('candidate-type').textContent = typeLabel;
-            document.getElementById('evaluation-date').textContent = new Date().toLocaleDateString('fr-FR');
-            
-            quizLocked = false;
-            goToStep(4);
+            showToast('Réinitialisation', 'Le formulaire a été réinitialisé', 'success');
         }
         
-        // Initialisation
-        showModule(1);
+        // Fonction pour naviguer entre les étapes via la barre de navigation
+        document.querySelectorAll('.step-indicator').forEach((indicator, index) => {
+            indicator.addEventListener('click', function() {
+                if (this.classList.contains('completed')) {
+                    goToStep(index + 1);
+                }
+            });
+        });
+        
+        // Gestion des raccourcis clavier
+        document.addEventListener('keydown', function(e) {
+            if (currentStep === 3) { // Quiz uniquement
+                if (e.key === 'ArrowRight' || e.key === 'Enter') {
+                    const nextBtn = document.getElementById('nextBtn');
+                    if (nextBtn && !nextBtn.classList.contains('hidden')) {
+                        nextQuestion();
+                    }
+                } else if (e.key === 'ArrowLeft') {
+                    const prevBtn = document.getElementById('prevBtn');
+                    if (prevBtn && !prevBtn.classList.contains('hidden')) {
+                        previousQuestion();
+                    }
+                } else if (e.key >= '1' && e.key <= '4') {
+                    const answerIndex = parseInt(e.key) - 1;
+                    if (questions[currentQuestion] && questions[currentQuestion].answers[answerIndex]) {
+                        selectAnswer(answerIndex);
+                    }
+                }
+            }
+        });
+        
+        // Empêcher la soumission accidentelle avec Enter dans les champs de texte
+        document.querySelectorAll('.form-input, .form-select').forEach(input => {
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (currentStep === 1) {
+                        goToStep(2);
+                    }
+                }
+            });
+        });
+        
+        // Initialisation au chargement
+        window.addEventListener('DOMContentLoaded', function() {
+            // Vérifier la compatibilité du navigateur
+            if (!window.fetch) {
+                showToast('Navigateur incompatible', 'Veuillez utiliser un navigateur moderne', 'error');
+            }
+            
+            // Focus sur le premier champ
+            document.getElementById('nom').focus();
+            
+            // Afficher un message d'accueil
+            console.log('%cDIR GALAX - Plateforme de Formation', 'color: #003366; font-size: 20px; font-weight: bold;');
+            console.log('%cBienvenue sur le système d\'évaluation des formateurs', 'color: #FF6600; font-size: 14px;');
+        });
+        
+        // Protection contre la fermeture accidentelle
+        window.addEventListener('beforeunload', function(e) {
+            if (currentStep > 1 && currentStep < 4) {
+                e.preventDefault();
+                e.returnValue = 'Êtes-vous sûr de vouloir quitter ? Votre progression sera perdue.';
+                return e.returnValue;
+            }
+        });
     </script>
 </body>
 </html>
-
